@@ -1,5 +1,13 @@
 {
 
-  "item.nillachoco.vanilla_extract": "Vanilla Extract"
-
+  "item.nillachoco.vanilla_extract": "Vanilla Extract",
+  "item.nillachoco.raw_donut_ring": "Raw Donut Ring",
+  "item.nillachoco.plain_donut": "Plain Donut",
+  "item.nillachoco.glazed_donut": "Glazed Donut",
+  "item.nillachoco.vanilla_frosted_donut": "Vanilla Frosted Donut",
+  "item.nillachoco.chocolate_frosted_donut": "Chocolate Frosted Donut",
+  "item.nillachoco.sprinkle_donut": "Sprinkle Donut",
+  "item.nillachoco.honey_donut": "Honey Donut",
+  "item.nillachoco.slime_donut": "Slime Donut",
+  "item.nillachoco.spider_donut": "Spider Donut"
 }

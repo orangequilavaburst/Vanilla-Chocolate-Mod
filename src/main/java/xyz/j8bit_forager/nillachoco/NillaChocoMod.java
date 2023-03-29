@@ -22,7 +22,7 @@ public class NillaChocoMod
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "nillachoco";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
     public NillaChocoMod()
@@ -52,6 +52,21 @@ public class NillaChocoMod
         if (event.getTab() == CreativeModeTabs.INGREDIENTS){
 
             event.accept(ModItems.VANILLA_EXTRACT);
+            event.accept(ModItems.RAW_DONUT_RING);
+            event.accept(ModItems.PLAIN_DONUT);
+
+        }
+        if (event.getTab() == CreativeModeTabs.FOOD_AND_DRINKS){
+
+            event.accept(ModItems.RAW_DONUT_RING);
+            event.accept(ModItems.PLAIN_DONUT);
+            event.accept(ModItems.GLAZED_DONUT);
+            event.accept(ModItems.VANILLA_FROSTED_DONUT);
+            event.accept(ModItems.CHOCOLATE_FROSTED_DONUT);
+            event.accept(ModItems.SPRINKLE_DONUT);
+            event.accept(ModItems.HONEY_DONUT);
+            event.accept(ModItems.SLIME_DONUT);
+            event.accept(ModItems.SPIDER_DONUT);
 
         }
 
