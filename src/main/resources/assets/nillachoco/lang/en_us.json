@@ -9,5 +9,13 @@
   "item.nillachoco.sprinkle_donut": "Sprinkle Donut",
   "item.nillachoco.honey_donut": "Honey Donut",
   "item.nillachoco.slime_donut": "Slime Donut",
-  "item.nillachoco.spider_donut": "Spider Donut"
+  "item.nillachoco.spider_donut": "Spider Donut",
+
+  "block.nillachoco.vanilla_orchid": "Vanilla Orchid",
+  "block.nillachoco.potted_vanilla_orchid": "Potted Vanilla Orchid",
+  "block.nillachoco.chocolate_block": "Chocolate Block",
+  "block.nillachoco.white_chocolate_block": "White Chocolate Block",
+
+  "creativemodetab.nillachoco_tab": "Nillachoco Mod"
+
 }

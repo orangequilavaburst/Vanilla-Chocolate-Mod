@@ -2,6 +2,8 @@ package xyz.j8bit_forager.nillachoco;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
@@ -13,7 +15,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import xyz.j8bit_forager.nillachoco.block.ModBlocks;
+import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
 import xyz.j8bit_forager.nillachoco.item.ModItems;
+import xyz.j8bit_forager.nillachoco.world.feature.ModConfiguredFeatures;
+import xyz.j8bit_forager.nillachoco.world.feature.ModPlacedFeatures;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(NillaChocoMod.MOD_ID)
@@ -30,6 +36,7 @@ public class NillaChocoMod
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -44,11 +51,24 @@ public class NillaChocoMod
     private void commonSetup(final FMLCommonSetupEvent event)
     {
 
+        ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.VANILLA_ORCHID.getId(), ModBlocks.POTTED_VANILLA_ORCHID);
+
     }
 
     private void addCreative(CreativeModeTabEvent.BuildContents event)
     {
 
+        if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS){
+
+            event.accept(ModBlocks.CHOCOLATE_BLOCK);
+            event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK);
+
+        }
+        if (event.getTab() == CreativeModeTabs.NATURAL_BLOCKS){
+
+            event.accept(ModBlocks.VANILLA_ORCHID);
+
+        }
         if (event.getTab() == CreativeModeTabs.INGREDIENTS){
 
             event.accept(ModItems.VANILLA_EXTRACT);
@@ -58,6 +78,29 @@ public class NillaChocoMod
         }
         if (event.getTab() == CreativeModeTabs.FOOD_AND_DRINKS){
 
+            event.accept(ModItems.RAW_DONUT_RING);
+            event.accept(ModItems.PLAIN_DONUT);
+            event.accept(ModItems.GLAZED_DONUT);
+            event.accept(ModItems.VANILLA_FROSTED_DONUT);
+            event.accept(ModItems.CHOCOLATE_FROSTED_DONUT);
+            event.accept(ModItems.SPRINKLE_DONUT);
+            event.accept(ModItems.HONEY_DONUT);
+            event.accept(ModItems.SLIME_DONUT);
+            event.accept(ModItems.SPIDER_DONUT);
+
+        }
+
+        if (event.getTab() == ModItemGroups.vanillaChocolateTab){
+
+            // vanilla
+            event.accept(ModBlocks.VANILLA_ORCHID);
+            event.accept(ModItems.VANILLA_EXTRACT);
+
+            // chocolate
+            event.accept(ModBlocks.CHOCOLATE_BLOCK);
+            event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK);
+
+            // donuts
             event.accept(ModItems.RAW_DONUT_RING);
             event.accept(ModItems.PLAIN_DONUT);
             event.accept(ModItems.GLAZED_DONUT);

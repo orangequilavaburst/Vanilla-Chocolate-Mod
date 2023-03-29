@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "nillachoco:block/vanilla_orchid"
+  },
+  "render_type": "cutout"
+}
