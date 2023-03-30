@@ -61,7 +61,13 @@ public class NillaChocoMod
         if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS){
 
             event.accept(ModBlocks.CHOCOLATE_BLOCK);
+            event.accept(ModBlocks.CHOCOLATE_BLOCK_SLAB);
+            event.accept(ModBlocks.CHOCOLATE_BLOCK_STAIRS);
+            event.accept(ModBlocks.CHOCOLATE_BLOCK_WALL);
             event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK);
+            event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK_SLAB);
+            event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK_STAIRS);
+            event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK_WALL);
 
         }
         if (event.getTab() == CreativeModeTabs.NATURAL_BLOCKS){
@@ -88,6 +94,9 @@ public class NillaChocoMod
             event.accept(ModItems.SLIME_DONUT);
             event.accept(ModItems.SPIDER_DONUT);
 
+            event.accept(ModBlocks.VANILLA_CAKE);
+            event.accept(ModBlocks.CHOCOLATE_CAKE);
+
         }
 
         if (event.getTab() == ModItemGroups.vanillaChocolateTab){
@@ -98,7 +107,13 @@ public class NillaChocoMod
 
             // chocolate
             event.accept(ModBlocks.CHOCOLATE_BLOCK);
+            event.accept(ModBlocks.CHOCOLATE_BLOCK_SLAB);
+            event.accept(ModBlocks.CHOCOLATE_BLOCK_STAIRS);
+            event.accept(ModBlocks.CHOCOLATE_BLOCK_WALL);
             event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK);
+            event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK_SLAB);
+            event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK_STAIRS);
+            event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK_WALL);
 
             // donuts
             event.accept(ModItems.RAW_DONUT_RING);
@@ -110,6 +125,13 @@ public class NillaChocoMod
             event.accept(ModItems.HONEY_DONUT);
             event.accept(ModItems.SLIME_DONUT);
             event.accept(ModItems.SPIDER_DONUT);
+
+            // cake
+            event.accept(ModBlocks.VANILLA_CAKE);
+            event.accept(ModBlocks.CHOCOLATE_CAKE);
+
+            // other blocks
+            event.accept(ModBlocks.VANILLA_SCENTED_CANDLE);
 
         }
 

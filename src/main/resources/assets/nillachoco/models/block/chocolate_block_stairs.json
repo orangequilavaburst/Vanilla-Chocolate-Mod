@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "nillachoco:block/chocolate_block",
+    "side": "nillachoco:block/chocolate_block",
+    "top": "nillachoco:block/chocolate_block"
+  }
+}

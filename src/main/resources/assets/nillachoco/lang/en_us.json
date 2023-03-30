@@ -14,7 +14,16 @@
   "block.nillachoco.vanilla_orchid": "Vanilla Orchid",
   "block.nillachoco.potted_vanilla_orchid": "Potted Vanilla Orchid",
   "block.nillachoco.chocolate_block": "Chocolate Block",
+  "block.nillachoco.chocolate_block_slab": "Chocolate Block Slab",
+  "block.nillachoco.chocolate_block_stairs": "Chocolate Block Stairs",
+  "block.nillachoco.chocolate_block_wall": "Chocolate Block Wall",
   "block.nillachoco.white_chocolate_block": "White Chocolate Block",
+  "block.nillachoco.white_chocolate_block_slab": "White Chocolate Block Slab",
+  "block.nillachoco.white_chocolate_block_stairs": "White Chocolate Block Stairs",
+  "block.nillachoco.white_chocolate_block_wall": "White Chocolate Block Wall",
+  "block.nillachoco.vanilla_cake": "Vanilla Cake",
+  "block.nillachoco.chocolate_cake": "Chocolate Cake",
+  "block.nillachoco.vanilla_scented_candle": "Vanilla Scented Candle",
 
   "creativemodetab.nillachoco_tab": "Nillachoco Mod"
 

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "nillachoco:block/white_chocolate_block_slab"
+    },
+    "type=double": {
+      "model": "nillachoco:block/white_chocolate_block"
+    },
+    "type=top": {
+      "model": "nillachoco:block/white_chocolate_block_slab_top"
+    }
+  }
+}

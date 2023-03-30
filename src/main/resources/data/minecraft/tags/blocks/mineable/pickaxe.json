@@ -4,8 +4,13 @@
   "values": [
 
     "nillachoco:chocolate_block",
-    "nillachoco:white_chocolate_block"
-
+    "nillachoco:chocolate_block_stairs",
+    "nillachoco:chocolate_block_slab",
+    "nillachoco:chocolate_block_wall",
+    "nillachoco:white_chocolate_block",
+    "nillachoco:white_chocolate_block_stairs",
+    "nillachoco:white_chocolate_block_slab",
+    "nillachoco:white_chocolate_block_wall"
   ]
 
 }
