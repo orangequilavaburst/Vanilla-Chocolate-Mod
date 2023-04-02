@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "nillachoco:chocolate_block"
+    },
+    "X": {
+      "item": "minecraft:white_dye"
+    }
+  },
+  "result": {
+    "item": "nillachoco:white_chocolate_block",
+    "count": 8
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "nillachoco:chocolate_bar"
+    }
+  },
+  "result": {
+    "item": "nillachoco:chocolate_block"
+  }
+}

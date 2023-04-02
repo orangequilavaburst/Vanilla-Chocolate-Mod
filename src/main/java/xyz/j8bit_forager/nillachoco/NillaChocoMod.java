@@ -1,11 +1,24 @@
 package xyz.j8bit_forager.nillachoco;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.data.recipes.CraftingRecipeBuilder;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -14,6 +27,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 import xyz.j8bit_forager.nillachoco.block.ModBlocks;
 import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
@@ -77,12 +91,16 @@ public class NillaChocoMod
         }
         if (event.getTab() == CreativeModeTabs.INGREDIENTS){
 
+            event.accept(ModItems.VANILLA_BEAN);
             event.accept(ModItems.VANILLA_EXTRACT);
+            event.accept(ModItems.CHOCOLATE_BAR);
             event.accept(ModItems.RAW_DONUT_RING);
             event.accept(ModItems.PLAIN_DONUT);
 
         }
         if (event.getTab() == CreativeModeTabs.FOOD_AND_DRINKS){
+
+            event.accept(ModItems.CHOCOLATE_BAR);
 
             event.accept(ModItems.RAW_DONUT_RING);
             event.accept(ModItems.PLAIN_DONUT);
@@ -103,9 +121,12 @@ public class NillaChocoMod
 
             // vanilla
             event.accept(ModBlocks.VANILLA_ORCHID);
+            event.accept(ModItems.VANILLA_BEAN);
             event.accept(ModItems.VANILLA_EXTRACT);
 
             // chocolate
+            event.accept(ModItems.CHOCOLATE_BAR);
+
             event.accept(ModBlocks.CHOCOLATE_BLOCK);
             event.accept(ModBlocks.CHOCOLATE_BLOCK_SLAB);
             event.accept(ModBlocks.CHOCOLATE_BLOCK_STAIRS);
@@ -152,6 +173,9 @@ public class NillaChocoMod
         public static void onClientSetup(FMLClientSetupEvent event)
         {
 
+
+
         }
+
     }
 }

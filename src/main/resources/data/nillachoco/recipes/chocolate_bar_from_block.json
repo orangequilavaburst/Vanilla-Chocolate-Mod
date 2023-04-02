@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "nillachoco:chocolate_block"
+    }
+  ],
+  "result": {
+    "item": "nillachoco:chocolate_bar",
+    "count": 9
+  }
+}

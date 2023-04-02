@@ -14,8 +14,13 @@ public class ModItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NillaChocoMod.MOD_ID);
 
+    public static final RegistryObject<Item> VANILLA_BEAN = ITEMS.register("vanilla_bean",
+            () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> VANILLA_EXTRACT = ITEMS.register("vanilla_extract",
             () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> CHOCOLATE_BAR = ITEMS.register("chocolate_bar",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).build())));
 
     public static final RegistryObject<Item> RAW_DONUT_RING = ITEMS.register("raw_donut_ring",
             () -> new DonutItem(new Item.Properties()
