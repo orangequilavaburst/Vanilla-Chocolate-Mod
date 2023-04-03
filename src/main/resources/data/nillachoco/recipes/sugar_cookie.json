@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:wheat"
+    },
+    "Y": {
+      "item": "minecraft:sugar"
+    },
+    "X": {
+      "item": "nillachoco:vanilla_extract"
+    }
+  },
+  "pattern": [
+    "#XY"
+  ],
+  "result": {
+    "count": 8,
+    "item": "nillachoco:sugar_cookie"
+  },
+  "show_notification": true
+}

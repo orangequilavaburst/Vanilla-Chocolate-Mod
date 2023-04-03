@@ -106,7 +106,9 @@ public class NillaChocoMod
         }
         if (event.getTab() == CreativeModeTabs.FOOD_AND_DRINKS){
 
+            event.accept(ModItems.SUGAR_COOKIE);
             event.accept(ModItems.CHOCOLATE_BAR);
+            event.accept(ModItems.FUDGE_BROWNIE);
 
             event.accept(ModItems.RAW_DONUT_RING);
             event.accept(ModItems.PLAIN_DONUT);
@@ -129,9 +131,12 @@ public class NillaChocoMod
             event.accept(ModBlocks.VANILLA_ORCHID);
             event.accept(ModItems.VANILLA_BEAN);
             event.accept(ModItems.VANILLA_EXTRACT);
+            event.accept(ModItems.SUGAR_COOKIE);
 
             // chocolate
             event.accept(ModItems.CHOCOLATE_BAR);
+            event.accept(Items.COOKIE);
+            event.accept(ModItems.FUDGE_BROWNIE);
 
             event.accept(ModBlocks.CHOCOLATE_BLOCK);
             event.accept(ModBlocks.CHOCOLATE_BLOCK_SLAB);

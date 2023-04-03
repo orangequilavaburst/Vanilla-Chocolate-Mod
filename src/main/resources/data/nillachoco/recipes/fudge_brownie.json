@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "nillachoco:chocolate_bar"
+    },
+    {
+      "item": "nillachoco:chocolate_bar"
+    },
+    {
+      "item": "nillachoco:vanilla_extract"
+    }
+  ],
+  "result": {
+    "item": "nillachoco:fudge_brownie",
+    "count": 4
+  }
+}

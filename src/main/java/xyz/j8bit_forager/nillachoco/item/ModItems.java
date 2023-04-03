@@ -3,6 +3,7 @@ package xyz.j8bit_forager.nillachoco.item;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -19,8 +20,14 @@ public class ModItems {
     public static final RegistryObject<Item> VANILLA_EXTRACT = ITEMS.register("vanilla_extract",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> SUGAR_COOKIE = ITEMS.register("sugar_cookie",
+            () -> new Item(new Item.Properties().food(Foods.COOKIE)));
+
     public static final RegistryObject<Item> CHOCOLATE_BAR = ITEMS.register("chocolate_bar",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).build())));
+
+    public static final RegistryObject<Item> FUDGE_BROWNIE = ITEMS.register("fudge_brownie",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).build())));
 
     public static final RegistryObject<Item> RAW_DONUT_RING = ITEMS.register("raw_donut_ring",
             () -> new DonutItem(new Item.Properties()
