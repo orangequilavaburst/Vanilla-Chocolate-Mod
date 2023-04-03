@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "nillachoco:vanilla_extract"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_vanilla_beans": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "nillachoco:vanilla_bean"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_vanilla_beans",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "nillachoco:vanilla_extract"
+    ]
+  }
+}

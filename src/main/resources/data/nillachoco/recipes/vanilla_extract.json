@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "type": "forge:partial_nbt",
+      "item": "minecraft:potion",
+      "nbt": "{Potion:\"minecraft:water\"}"
+    },
+    {
+      "item": "nillachoco:vanilla_bean"
+    },
+    {
+      "item": "nillachoco:vanilla_bean"
+    }
+  ],
+  "result": {
+    "item": "nillachoco:vanilla_extract"
+  }
+}
