@@ -1,5 +1,8 @@
 package xyz.j8bit_forager.nillachoco.block;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
@@ -77,6 +80,18 @@ public class ModBlocks {
     public static void register(IEventBus eb){
 
         BLOCKS.register(eb);
+
+    }
+
+    public static class Tags{
+
+        public static final TagKey<Block> DESTROYED_BY_WARMTH = create("destroyed_by_warmth");
+
+        private static TagKey<Block> create(String location){
+
+            return BlockTags.create(new ResourceLocation(NillaChocoMod.MOD_ID, location));
+
+        }
 
     }
 

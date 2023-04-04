@@ -33,6 +33,9 @@
   "block.nillachoco.chocolate_cake": "Chocolate Cake",
   "block.nillachoco.vanilla_scented_candle": "Vanilla Scented Candle",
 
+  "effect.nillachoco.warmth": "Warmth",
+  "effect.nillachoco.warmth.warning_text": "It's too hot!",
+
   "creativemodetab.nillachoco_tab": "Nillachoco Mod"
 
 }

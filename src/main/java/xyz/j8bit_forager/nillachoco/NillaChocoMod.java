@@ -36,6 +36,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 import xyz.j8bit_forager.nillachoco.block.ModBlocks;
+import xyz.j8bit_forager.nillachoco.effect.ModEffects;
 import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
 import xyz.j8bit_forager.nillachoco.item.ModItems;
 import xyz.j8bit_forager.nillachoco.world.feature.ModConfiguredFeatures;
@@ -57,6 +58,7 @@ public class NillaChocoMod
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModEffects.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
