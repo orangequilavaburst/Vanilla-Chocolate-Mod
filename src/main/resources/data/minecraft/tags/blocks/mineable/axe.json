@@ -3,6 +3,9 @@
   "replace": false,
   "values": [
 
+    "nillachoco:cocoa_bean_block",
+    "nillachoco:cocoa_husk_block"
+
   ]
 
 }

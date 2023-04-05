@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:cocoa_beans"
+    }
+  },
+  "result": {
+    "item": "nillachoco:cocoa_bean_block"
+  }
+}

@@ -82,6 +82,8 @@ public class NillaChocoMod
 
         if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS){
 
+            event.accept(ModBlocks.COCOA_BEAN_BLOCK);
+            event.accept(ModBlocks.COCOA_HUSK_BLOCK);
             event.accept(ModBlocks.CHOCOLATE_BLOCK);
             event.accept(ModBlocks.CHOCOLATE_BLOCK_SLAB);
             event.accept(ModBlocks.CHOCOLATE_BLOCK_STAIRS);
@@ -140,6 +142,8 @@ public class NillaChocoMod
             event.accept(Items.COOKIE);
             event.accept(ModItems.FUDGE_BROWNIE);
 
+            event.accept(ModBlocks.COCOA_BEAN_BLOCK);
+            event.accept(ModBlocks.COCOA_HUSK_BLOCK);
             event.accept(ModBlocks.CHOCOLATE_BLOCK);
             event.accept(ModBlocks.CHOCOLATE_BLOCK_SLAB);
             event.accept(ModBlocks.CHOCOLATE_BLOCK_STAIRS);

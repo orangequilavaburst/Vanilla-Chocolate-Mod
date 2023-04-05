@@ -24,6 +24,11 @@ public class ModBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, NillaChocoMod.MOD_ID);
 
+    public static final RegistryObject<Block> COCOA_BEAN_BLOCK = registerBlock("cocoa_bean_block",
+            () -> new Block(BlockBehaviour.Properties.of(Material.PLANT).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
+
+    public static final RegistryObject<Block> COCOA_HUSK_BLOCK = registerBlock("cocoa_husk_block",
+            () -> new Block(BlockBehaviour.Properties.of(Material.PLANT).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> CHOCOLATE_BLOCK = registerBlock("chocolate_block",
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(1.0f, 8.0f).requiresCorrectToolForDrops()));
 

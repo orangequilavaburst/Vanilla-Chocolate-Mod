@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "nillachoco:cocoa_bean_block"
+    }
+  ],
+  "result": {
+    "item": "minecraft:cocoa_beans",
+    "count": 9
+  }
+}
