@@ -1,6 +1,8 @@
 package xyz.j8bit_forager.nillachoco;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.CraftingRecipeBuilder;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -190,8 +192,7 @@ public class NillaChocoMod
         public static void onClientSetup(FMLClientSetupEvent event)
         {
 
-
-
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.VANILLA_PLANT.get(), RenderType.cutout());
 
         }
 

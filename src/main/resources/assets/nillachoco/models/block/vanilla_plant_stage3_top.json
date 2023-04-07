@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "nillachoco:block/vanilla_plant_3_top"
+  },
+  "render_type": "cutout"
+}

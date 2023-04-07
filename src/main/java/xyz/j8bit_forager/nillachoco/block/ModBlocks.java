@@ -24,6 +24,9 @@ public class ModBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, NillaChocoMod.MOD_ID);
 
+    public static final RegistryObject<Block> VANILLA_PLANT = BLOCKS.register("vanilla_plant",
+            () -> new VanillaPlantCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)));
+
     public static final RegistryObject<Block> COCOA_BEAN_BLOCK = registerBlock("cocoa_bean_block",
             () -> new Block(BlockBehaviour.Properties.of(Material.PLANT).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
 

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "nillachoco:block/vanilla_plant_2"
+  }
+}

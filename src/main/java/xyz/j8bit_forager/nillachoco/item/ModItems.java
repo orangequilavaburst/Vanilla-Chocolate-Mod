@@ -5,18 +5,20 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.j8bit_forager.nillachoco.NillaChocoMod;
+import xyz.j8bit_forager.nillachoco.block.ModBlocks;
 
 public class ModItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NillaChocoMod.MOD_ID);
 
     public static final RegistryObject<Item> VANILLA_BEAN = ITEMS.register("vanilla_bean",
-            () -> new Item(new Item.Properties()));
+            () -> new ItemNameBlockItem(ModBlocks.VANILLA_PLANT.get(), new Item.Properties().stacksTo(64)));
     public static final RegistryObject<Item> VANILLA_EXTRACT = ITEMS.register("vanilla_extract",
             () -> new Item(new Item.Properties()));
 
