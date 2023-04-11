@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "nillachoco:vanilla_orchid"
+    }
+  ],
+  "result": {
+    "item": "nillachoco:vanilla_bean"
+  }
+}

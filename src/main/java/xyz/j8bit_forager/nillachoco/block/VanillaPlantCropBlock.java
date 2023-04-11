@@ -2,6 +2,7 @@ package xyz.j8bit_forager.nillachoco.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -44,15 +45,23 @@ public class VanillaPlantCropBlock extends CropBlock{
 
     @Override
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (!pLevel.isAreaLoaded(pPos, 1)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light
-        if (pLevel.getRawBrightness(pPos, 0) >= 9) {
-            int i = this.getAge(pState);
-            if (i < this.getMaxAge()) {
-                float f = getGrowthSpeed(this, pLevel, pPos);
-                if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, pRandom.nextInt((int)(25.0F / f) + 1) == 0)) {
-                    pLevel.setBlock(pPos, this.getStateForAge(i + 1), 2);
-                    if (pLevel.getBlockState(pPos.above()).is(pState.getBlock()) && i + 1 >= 3) pLevel.setBlock(pPos.above(), this.getStateForAge(i + 1).setValue(HALF, DoubleBlockHalf.UPPER), 2);
-                    net.minecraftforge.common.ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
+        if (pState.getValue(HALF) == DoubleBlockHalf.LOWER) {
+            if (!pLevel.isAreaLoaded(pPos, 1))
+                return; // Forge: prevent loading unloaded chunks when checking neighbor's light
+            if (pLevel.getRawBrightness(pPos, 0) >= 9) {
+                int i = this.getAge(pState);
+                if (i < this.getMaxAge()) {
+                    float f = getGrowthSpeed(this, pLevel, pPos);
+                    if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, pRandom.nextInt((int) (25.0F / f) + 1) == 0)
+                            && (i + 1 == 3 && pLevel.getBlockState(pPos.above()).is(Blocks.AIR)) || i + 1 != 3) {
+                        pLevel.setBlock(pPos, this.getStateForAge(i + 1), 2);
+                        if (i + 1 >= 3) {
+                            pLevel.getServer().sendSystemMessage(Component.literal("( randomTick() )"));
+                            pLevel.getServer().sendSystemMessage(Component.literal("Tried setting new block at " + pPos.above().toShortString()));
+                            pLevel.setBlock(pPos.above(), this.getStateForAge(i + 1).setValue(HALF, DoubleBlockHalf.UPPER), 2);
+                        }
+                        net.minecraftforge.common.ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
+                    }
                 }
             }
         }
@@ -72,9 +81,24 @@ public class VanillaPlantCropBlock extends CropBlock{
             if (i > j) {
                 i = j;
             }
+            if (i >= 3 && !(pLevel.isEmptyBlock(pPos.above()) || pLevel.getBlockState(pPos.above()).is(ModBlocks.VANILLA_PLANT.get()))){
+                i = 2;
+            }
 
             pLevel.setBlock(pPos, this.getStateForAge(i), 2);
-            if (pLevel.getBlockState(pPos.above()).is(pState.getBlock()) && i >= 3) pLevel.setBlock(pPos.above(), this.getStateForAge(i).setValue(HALF, DoubleBlockHalf.UPPER), 2);
+            if (i >= 3){
+                pLevel.setBlock(pPos.above(), this.getStateForAge(i).setValue(HALF, DoubleBlockHalf.UPPER), 2);
+            }
+        }
+        else{
+            int i = this.getAge(pState) + this.getBonemealAgeIncrease(pLevel);
+            int j = this.getMaxAge();
+            if (i > j) {
+                i = j;
+            }
+
+            pLevel.setBlock(pPos.below(), this.getStateForAge(i), 2);
+            pLevel.setBlock(pPos, this.getStateForAge(i).setValue(HALF, DoubleBlockHalf.UPPER), 2);
         }
     }
 
@@ -122,7 +146,7 @@ public class VanillaPlantCropBlock extends CropBlock{
 
     @Override
     public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
-        if (!pLevel.isEmptyBlock(pPos.above())) return false;
+        if (!(pLevel.isEmptyBlock(pPos.above()) || pLevel.getBlockState(pPos.above()).is(ModBlocks.VANILLA_PLANT.get()))) return false;
         return !this.isMaxAge(pState);
     }
 
