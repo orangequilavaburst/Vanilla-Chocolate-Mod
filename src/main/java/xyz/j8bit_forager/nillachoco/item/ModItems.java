@@ -6,6 +6,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -106,6 +107,9 @@ public class ModItems {
                             .effect(() -> new MobEffectInstance(MobEffects.NIGHT_VISION, 1200), 1.0f)
                             .alwaysEat().build()
                     )));
+
+    public static final RegistryObject<Item> CHOCOLATE_RAIN_BOW = ITEMS.register("chocolate_rain_bow",
+            () -> new ChocolateRainBowItem(new Item.Properties().stacksTo(1).defaultDurability(1000).rarity(Rarity.RARE)));
 
     public static void register(IEventBus eb){
 

@@ -19,6 +19,8 @@
   "item.nillachoco.slime_donut": "Slime Donut",
   "item.nillachoco.spider_donut": "Spider Donut",
 
+  "item.nillachoco.chocolate_rain_bow": "Chocolate Rain Bow",
+
   "block.nillachoco.vanilla_plant": "Vanilla Plant",
   "block.nillachoco.vanilla_orchid": "Vanilla Orchid",
   "block.nillachoco.potted_vanilla_orchid": "Potted Vanilla Orchid",
@@ -38,6 +40,8 @@
 
   "effect.nillachoco.warmth": "Warmth",
   "effect.nillachoco.warmth.warning_text": "It's too hot!",
+
+  "entity.nillachoco.chocolate_arrow": "Chocolate Arrow",
 
   "creativemodetab.nillachoco_tab": "Nillachoco Mod"
 

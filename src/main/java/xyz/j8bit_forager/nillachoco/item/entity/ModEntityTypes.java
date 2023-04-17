@@ -1,4 +1,4 @@
-package xyz.j8bit_forager.nillachoco.entity;
+package xyz.j8bit_forager.nillachoco.item.entity;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.j8bit_forager.nillachoco.NillaChocoMod;
-import xyz.j8bit_forager.nillachoco.entity.custom.ChocolateArrowEntity;
+import xyz.j8bit_forager.nillachoco.item.entity.custom.ChocolateArrowEntity;
 
 public class ModEntityTypes {
 
