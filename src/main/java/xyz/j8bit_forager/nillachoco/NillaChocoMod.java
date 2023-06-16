@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,9 +22,9 @@ import org.slf4j.Logger;
 import xyz.j8bit_forager.nillachoco.block.ModBlocks;
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.ChocolateArrowRenderer;
 import xyz.j8bit_forager.nillachoco.effect.ModEffects;
-import xyz.j8bit_forager.nillachoco.item.entity.ModEntityTypes;
 import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
 import xyz.j8bit_forager.nillachoco.item.ModItems;
+import xyz.j8bit_forager.nillachoco.item.entity.ModEntityTypes;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(NillaChocoMod.MOD_ID)
@@ -40,6 +40,7 @@ public class NillaChocoMod
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModItemGroups.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
@@ -62,10 +63,10 @@ public class NillaChocoMod
 
     }
 
-    private void addCreative(CreativeModeTabEvent.BuildContents event)
+    private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
 
-        if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS){
+        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS){
 
             event.accept(ModBlocks.COCOA_BEAN_BLOCK);
             event.accept(ModBlocks.COCOA_HUSK_BLOCK);
@@ -79,12 +80,12 @@ public class NillaChocoMod
             event.accept(ModBlocks.WHITE_CHOCOLATE_BLOCK_WALL);
 
         }
-        if (event.getTab() == CreativeModeTabs.NATURAL_BLOCKS){
+        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS){
 
             event.accept(ModBlocks.VANILLA_ORCHID);
 
         }
-        if (event.getTab() == CreativeModeTabs.INGREDIENTS){
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS){
 
             event.accept(ModItems.VANILLA_BEAN);
             event.accept(ModItems.VANILLA_EXTRACT);
@@ -93,7 +94,7 @@ public class NillaChocoMod
             event.accept(ModItems.PLAIN_DONUT);
 
         }
-        if (event.getTab() == CreativeModeTabs.FOOD_AND_DRINKS){
+        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS){
 
             event.accept(ModItems.SUGAR_COOKIE);
             event.accept(ModItems.CHOCOLATE_BAR);
@@ -113,12 +114,12 @@ public class NillaChocoMod
             event.accept(ModBlocks.CHOCOLATE_CAKE);
 
         }
-        if (event.getTab() == CreativeModeTabs.COMBAT){
+        if (event.getTabKey() == CreativeModeTabs.COMBAT){
 
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
 
         }
-        if (event.getTab() == ModItemGroups.vanillaChocolateTab){
+        if (event.getTabKey() == ModItemGroups.VANILLA_CHOCOLATE_TAB.getKey()){
 
             // vanilla
             event.accept(ModBlocks.VANILLA_ORCHID);

@@ -17,9 +17,9 @@ public class WarmthEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
 
-        if (!pLivingEntity.level.isClientSide()) {
+        if (!pLivingEntity.level().isClientSide()) {
 
-            Level world = pLivingEntity.getLevel();
+            Level world = pLivingEntity.level();
 
             pLivingEntity.setTicksFrozen(0);
 

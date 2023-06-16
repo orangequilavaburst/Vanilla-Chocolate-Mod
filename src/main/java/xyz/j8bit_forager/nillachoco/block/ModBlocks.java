@@ -3,14 +3,11 @@ package xyz.j8bit_forager.nillachoco.block;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -28,12 +25,12 @@ public class ModBlocks {
             () -> new VanillaPlantCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)));
 
     public static final RegistryObject<Block> COCOA_BEAN_BLOCK = registerBlock("cocoa_bean_block",
-            () -> new Block(BlockBehaviour.Properties.of(Material.PLANT).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
 
     public static final RegistryObject<Block> COCOA_HUSK_BLOCK = registerBlock("cocoa_husk_block",
-            () -> new Block(BlockBehaviour.Properties.of(Material.PLANT).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> CHOCOLATE_BLOCK = registerBlock("chocolate_block",
-            () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(1.0f, 8.0f).requiresCorrectToolForDrops()));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE).strength(1.0f, 8.0f).requiresCorrectToolForDrops()));
 
     public static final RegistryObject<Block> CHOCOLATE_BLOCK_SLAB = registerBlock("chocolate_block_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.copy(ModBlocks.CHOCOLATE_BLOCK.get())));
@@ -45,7 +42,7 @@ public class ModBlocks {
             () -> new WallBlock(BlockBehaviour.Properties.copy(ModBlocks.CHOCOLATE_BLOCK.get())));
 
     public static final RegistryObject<Block> WHITE_CHOCOLATE_BLOCK = registerBlock("white_chocolate_block",
-            () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(1.0f, 8.0f).requiresCorrectToolForDrops()));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE).strength(1.0f, 8.0f).requiresCorrectToolForDrops()));
 
     public static final RegistryObject<Block> WHITE_CHOCOLATE_BLOCK_SLAB = registerBlock("white_chocolate_block_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.copy(ModBlocks.CHOCOLATE_BLOCK.get())));
