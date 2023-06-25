@@ -31,7 +31,9 @@ public class VanillaSwordItem extends SwordItem {
                     for (int i = 0; i < 4; i++){
 
                         VanillaProjectileEntity proj = new VanillaProjectileEntity(ModEntityTypes.VANILLA_PROJECTILE_ENTITY.get(), player.level(), player.getPosition(1.0f).add(0.0, player.getBbHeight()/2.0, 0.0), player);
-                        proj.shootFromRotation(player, 0.0f /*xrot*/, player.getYRot() + (90.0f*(float)i + 45.0f), 0.0f, 1.5f, 0.01f);
+                        proj.shootFromRotation(player, 0.0f /*xrot*/, player.getYRot() + (90.0f*(float)i + 45.0f), 0.0f, 1.25f, 0.01f);
+                        proj.setOwner(player);
+                        proj.setOwnerUUID(player.getStringUUID());
                         player.level().addFreshEntity(proj);
 
                     }

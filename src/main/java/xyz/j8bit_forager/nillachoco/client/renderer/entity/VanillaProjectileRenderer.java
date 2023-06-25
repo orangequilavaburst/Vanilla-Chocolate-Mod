@@ -12,8 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import xyz.j8bit_forager.nillachoco.NillaChocoMod;
-import xyz.j8bit_forager.nillachoco.client.model.VanillaProjectileModel;
 import xyz.j8bit_forager.nillachoco.entity.custom.VanillaProjectileEntity;
 
 public class VanillaProjectileRenderer<T extends VanillaProjectileEntity> extends EntityRenderer<T> {
@@ -30,22 +30,23 @@ public class VanillaProjectileRenderer<T extends VanillaProjectileEntity> extend
     public void render(T pEntity, float pEntityYaw, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
         pPoseStack.pushPose();
 
+        pPoseStack.mulPose(Axis.YP.rotationDegrees(pEntity.tickCount * pEntity.getRotateDirection() * 30.0f));
+
         VertexConsumer vertexconsumer = pBuffer.getBuffer(RenderType.entityCutout(this.getTextureLocation(pEntity)));
         PoseStack.Pose posestack$pose = pPoseStack.last();
         Matrix4f matrix4f = posestack$pose.pose();
         Matrix3f matrix3f = posestack$pose.normal();
 
-        this.vertex(matrix4f, matrix3f, vertexconsumer, -8,0, -8, 0.0F, 0.0F, 0, 1, 0, pPackedLight);
-        this.vertex(matrix4f, matrix3f, vertexconsumer, 8,0, -8,  1.0F, 0.0F, 0, 1, 0, pPackedLight);
-        this.vertex(matrix4f, matrix3f, vertexconsumer, 8,0, 8, 1.0f, 1.0f, 0, 1, 0, pPackedLight);
-        this.vertex(matrix4f, matrix3f, vertexconsumer, -8,0,8,  0.0F, 1.0f, 0, 1, 0, pPackedLight);
+        this.vertex(matrix4f, matrix3f, vertexconsumer, -1,0, -1, 0.0F, 0.0F, 0, 1, 0, pPackedLight);
+        this.vertex(matrix4f, matrix3f, vertexconsumer, 1,0, -1,  1.0F, 0.0F, 0, 1, 0, pPackedLight);
+        this.vertex(matrix4f, matrix3f, vertexconsumer, 1,0, 1, 1.0f, 1.0f, 0, 1, 0, pPackedLight);
+        this.vertex(matrix4f, matrix3f, vertexconsumer, -1,0,1,  0.0F, 1.0f, 0, 1, 0, pPackedLight);
         pPoseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
-        this.vertex(matrix4f, matrix3f, vertexconsumer, -8,0, -8, 0.0F, 0.0F, 0, 1, 0, pPackedLight);
-        this.vertex(matrix4f, matrix3f, vertexconsumer, 8,0, -8,  1.0F, 0.0F, 0, 1, 0, pPackedLight);
-        this.vertex(matrix4f, matrix3f, vertexconsumer, 8,0, 8, 1.0f, 1.0f, 0, 1, 0, pPackedLight);
-        this.vertex(matrix4f, matrix3f, vertexconsumer, -8,0,8,  0.0F, 1.0f, 0, 1, 0, pPackedLight);
+        this.vertex(matrix4f, matrix3f, vertexconsumer, -1,0, -1, 0.0F, 0.0F, 0, 1, 0, pPackedLight);
+        this.vertex(matrix4f, matrix3f, vertexconsumer, 1,0, -1,  1.0F, 0.0F, 0, 1, 0, pPackedLight);
+        this.vertex(matrix4f, matrix3f, vertexconsumer, 1,0, 1, 1.0f, 1.0f, 0, 1, 0, pPackedLight);
+        this.vertex(matrix4f, matrix3f, vertexconsumer, -1,0,1,  0.0F, 1.0f, 0, 1, 0, pPackedLight);
 
-        pPoseStack.scale(0.125f, 0.125f, 0.125f);
         pPoseStack.popPose();
         super.render(pEntity, pEntityYaw, pPartialTick, pPoseStack, pBuffer, pPackedLight);
     }

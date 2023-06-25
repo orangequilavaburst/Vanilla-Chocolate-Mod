@@ -12,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
@@ -22,34 +23,38 @@ import net.minecraftforge.network.NetworkHooks;
 import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class VanillaProjectileEntity extends Projectile {
 
     private static final EntityDataAccessor<String> OWNER = SynchedEntityData.defineId(VanillaProjectileEntity.class, EntityDataSerializers.STRING);
-    private static final EntityDataAccessor<Boolean> HIT =
-            SynchedEntityData.defineId(VanillaProjectileEntity.class, EntityDataSerializers.BOOLEAN);
     private int life;
     private double baseDamage;
+    private final int rotateDirection;
+    private Random random = new Random();
 
     public VanillaProjectileEntity(EntityType<? extends Projectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.life = 0;
         this.baseDamage = 4;
+        this.rotateDirection = 1 - random.nextInt(2)*2;
     }
 
     public VanillaProjectileEntity(EntityType<? extends Projectile> pEntityType, Level pLevel, LivingEntity owner){
         super(pEntityType, pLevel);
         this.life = 0;
-        this.setOwner((Entity)owner);
+        this.setOwner(owner);
         this.baseDamage = 4;
+        this.rotateDirection = 1 - random.nextInt(2)*2;
     }
 
     public VanillaProjectileEntity(EntityType<? extends Projectile> pEntityType, Level pLevel, Vec3 pos, @Nullable LivingEntity owner){
         super(pEntityType, pLevel);
         this.life = 0;
         this.setPos(pos);
-        this.setOwner((Entity)owner);
+        this.setOwner(owner);
         this.baseDamage = 4;
+        this.rotateDirection = 1 - random.nextInt(2)*2;
     }
 
     private Vec3 getReflectionVector(Vec3 deltaMovement, Direction dir){
@@ -70,9 +75,9 @@ public class VanillaProjectileEntity extends Projectile {
         super.tick();
 
         ++this.life;
-        if (this.life > 300){
+        if (this.life > 150){
 
-            this.discard();
+            if (!this.level().isClientSide()) this.remove(RemovalReason.DISCARDED);
 
         }
         else{
@@ -110,8 +115,8 @@ public class VanillaProjectileEntity extends Projectile {
 
                 Vec3 a = this.getDeltaMovement().normalize();
                 Vec3 b = targetVec;
-                float lerpAmount = Mth.lerp(Math.max(this.distanceTo(target), radius)/radius,  0.25f, 0.01f);
-                float maxSpeed = 2.0f;
+                float lerpAmount = Mth.lerp(Math.max(this.distanceTo(target), radius)/radius,  0.05f, 0.001f);
+                float maxSpeed = 1.25f;
                 float savedSpeed = (float)this.getDeltaMovement().length();
 
                 this.setDeltaMovement(a.add(b.subtract(a.scale(lerpAmount))));
@@ -120,17 +125,23 @@ public class VanillaProjectileEntity extends Projectile {
             }
 
             // rotation
+            double d0 = vec3.horizontalDistance();
+            this.setYRot((float)(Mth.atan2(vec3.x, vec3.z) * (double)(180F / (float)Math.PI)));
+            this.setXRot((float)(Mth.atan2(vec3.y, d0) * (double)(180F / (float)Math.PI)));
+            this.yRotO = this.getYRot();
+            this.xRotO = this.getXRot();
 
-            // check for hits
-            HitResult hitresult = ProjectileUtil.getEntityHitResult(this.level(), this, this.position(), this.getPosition(1.0f), this.getBoundingBox(), (p) -> (p != this.getOwner()));
-            if (hitresult != null) {
-                if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult))
-                    this.onHit(hitresult);
+            // hit detection
+            HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
+            if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
+                this.onHit(hitresult);
             }
 
             // basic checks
+
+            this.checkInsideBlocks();
             if (this.level().getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)){
-                this.discard();
+                if (!this.level().isClientSide()) this.remove(RemovalReason.DISCARDED);
             }
 
         }
@@ -142,16 +153,6 @@ public class VanillaProjectileEntity extends Projectile {
 
         if(this.level().isClientSide()) {
             return;
-        }
-
-        if(pResult.getType() == HitResult.Type.ENTITY && pResult instanceof EntityHitResult entityHitResult) {
-            Entity hit = entityHitResult.getEntity();
-            Entity owner = this.getOwner();
-            if(owner != hit) {
-                this.entityData.set(HIT, true);
-            }
-        } else {
-            this.entityData.set(HIT, true);
         }
     }
 
@@ -166,6 +167,9 @@ public class VanillaProjectileEntity extends Projectile {
 
         LivingEntity livingentity = owner instanceof LivingEntity ? (LivingEntity)owner : null;
         boolean hurt = hitEntity.hurt(this.damageSources().mobProjectile(this, livingentity), (float) this.baseDamage);
+        if (hurt){
+            this.remove(RemovalReason.DISCARDED);
+        }
 
     }
 
@@ -175,7 +179,7 @@ public class VanillaProjectileEntity extends Projectile {
     }
 
     protected boolean canHitEntity(Entity p_36743_) {
-        return super.canHitEntity(p_36743_);
+        return super.canHitEntity(p_36743_) && !this.noPhysics;
     }
 
     // thx SSKirilSS
@@ -187,10 +191,13 @@ public class VanillaProjectileEntity extends Projectile {
         this.getEntityData().set(OWNER, uuid);
     }
 
+    public int getRotateDirection(){
+        return this.rotateDirection;
+    }
+
     @Override
     protected void defineSynchedData() {
         this.entityData.define(OWNER, (this.getOwner() != null) ? this.getOwner().getStringUUID() : "");
-        this.entityData.define(HIT, false);
     }
 
     @Override
