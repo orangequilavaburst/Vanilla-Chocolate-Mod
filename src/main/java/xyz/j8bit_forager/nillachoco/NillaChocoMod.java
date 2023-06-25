@@ -1,14 +1,33 @@
 package xyz.j8bit_forager.nillachoco;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.model.ModelUtils;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.extensions.IForgeBakedModel;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -18,6 +37,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import xyz.j8bit_forager.nillachoco.block.ModBlocks;
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.ChocolateArrowRenderer;
@@ -25,6 +45,9 @@ import xyz.j8bit_forager.nillachoco.effect.ModEffects;
 import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
 import xyz.j8bit_forager.nillachoco.item.ModItems;
 import xyz.j8bit_forager.nillachoco.item.entity.ModEntityTypes;
+
+import java.util.List;
+import java.util.Map;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(NillaChocoMod.MOD_ID)
@@ -116,6 +139,7 @@ public class NillaChocoMod
         }
         if (event.getTabKey() == CreativeModeTabs.COMBAT){
 
+            event.accept(ModItems.VANILLA_SWORD);
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
 
         }
@@ -159,6 +183,7 @@ public class NillaChocoMod
             event.accept(ModBlocks.CHOCOLATE_CAKE);
 
             // weapons
+            event.accept(ModItems.VANILLA_SWORD);
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
 
             // other blocks
