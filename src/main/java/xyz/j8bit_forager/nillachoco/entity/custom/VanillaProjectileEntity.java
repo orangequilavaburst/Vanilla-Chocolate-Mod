@@ -4,27 +4,19 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -34,6 +26,8 @@ import java.util.List;
 public class VanillaProjectileEntity extends Projectile {
 
     private static final EntityDataAccessor<String> OWNER = SynchedEntityData.defineId(VanillaProjectileEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<Boolean> HIT =
+            SynchedEntityData.defineId(VanillaProjectileEntity.class, EntityDataSerializers.BOOLEAN);
     private int life;
     private double baseDamage;
 
@@ -127,6 +121,13 @@ public class VanillaProjectileEntity extends Projectile {
 
             // rotation
 
+            // check for hits
+            HitResult hitresult = ProjectileUtil.getEntityHitResult(this.level(), this, this.position(), this.getPosition(1.0f), this.getBoundingBox(), (p) -> (p != this.getOwner()));
+            if (hitresult != null) {
+                if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult))
+                    this.onHit(hitresult);
+            }
+
             // basic checks
             if (this.level().getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)){
                 this.discard();
@@ -136,60 +137,35 @@ public class VanillaProjectileEntity extends Projectile {
     }
 
     @Override
+    protected void onHit(HitResult pResult) {
+        super.onHit(pResult);
+
+        if(this.level().isClientSide()) {
+            return;
+        }
+
+        if(pResult.getType() == HitResult.Type.ENTITY && pResult instanceof EntityHitResult entityHitResult) {
+            Entity hit = entityHitResult.getEntity();
+            Entity owner = this.getOwner();
+            if(owner != hit) {
+                this.entityData.set(HIT, true);
+            }
+        } else {
+            this.entityData.set(HIT, true);
+        }
+    }
+
+    @Override
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
-        Entity entity = pResult.getEntity();
-        float f = (float)this.getDeltaMovement().length();
-        int i = Mth.ceil(Mth.clamp((double)f * this.baseDamage, 0.0D, (double)Integer.MAX_VALUE));
-
-        Entity entity1 = this.getOwner();
-        DamageSource damagesource;
-        if (entity1 == null) {
-            damagesource = this.damageSources().genericKill();
-        } else {
-            damagesource = this.damageSources().genericKill();
-            if (entity1 instanceof LivingEntity) {
-                ((LivingEntity)entity1).setLastHurtMob(entity);
-            }
+        Entity hitEntity = pResult.getEntity();
+        Entity owner = this.getOwner();
+        if(hitEntity == owner && this.level().isClientSide()) {
+            return;
         }
 
-        boolean flag = entity.getType() == EntityType.ENDERMAN;
-
-        if (entity.hurt(damagesource, (float)i)) {
-            if (flag) {
-                return;
-            }
-
-            if (entity instanceof LivingEntity) {
-                LivingEntity livingentity = (LivingEntity)entity;
-
-                double d0 = Math.max(0.0D, 1.0D - livingentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
-                Vec3 vec3 = this.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D).normalize().scale(0.6D * d0);
-                if (vec3.lengthSqr() > 0.0D) {
-                    livingentity.push(vec3.x, 0.1D, vec3.z);
-                }
-
-                if (!this.level().isClientSide && entity1 instanceof LivingEntity) {
-                    EnchantmentHelper.doPostHurtEffects(livingentity, entity1);
-                    EnchantmentHelper.doPostDamageEffects((LivingEntity)entity1, livingentity);
-                }
-
-                if (entity1 != null && livingentity != entity1 && livingentity instanceof Player && entity1 instanceof ServerPlayer && !this.isSilent()) {
-                    ((ServerPlayer)entity1).connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.ARROW_HIT_PLAYER, 0.0F));
-                }
-            }
-
-            //this.playSound(this.soundEvent, 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
-            this.discard();
-
-        } else {
-            this.setDeltaMovement(this.getDeltaMovement().scale(-0.1D));
-            this.setYRot(this.getYRot() + 180.0F);
-            this.yRotO += 180.0F;
-            if (!this.level().isClientSide && this.getDeltaMovement().lengthSqr() < 1.0E-7D) {
-                this.discard();
-            }
-        }
+        LivingEntity livingentity = owner instanceof LivingEntity ? (LivingEntity)owner : null;
+        boolean hurt = hitEntity.hurt(this.damageSources().mobProjectile(this, livingentity), (float) this.baseDamage);
 
     }
 
@@ -214,6 +190,7 @@ public class VanillaProjectileEntity extends Projectile {
     @Override
     protected void defineSynchedData() {
         this.entityData.define(OWNER, (this.getOwner() != null) ? this.getOwner().getStringUUID() : "");
+        this.entityData.define(HIT, false);
     }
 
     @Override
