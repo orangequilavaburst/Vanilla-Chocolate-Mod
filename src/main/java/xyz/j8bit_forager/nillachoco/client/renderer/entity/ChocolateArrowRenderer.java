@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import xyz.j8bit_forager.nillachoco.NillaChocoMod;
-import xyz.j8bit_forager.nillachoco.item.entity.custom.ChocolateArrowEntity;
+import xyz.j8bit_forager.nillachoco.entity.custom.ChocolateArrowEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class ChocolateArrowRenderer<T extends ChocolateArrowEntity> extends EntityRenderer<T> {
