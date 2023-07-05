@@ -138,7 +138,7 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
             if (!itemstack.isEmpty() || flag) {
                 if (itemstack.isEmpty()) {
-                    itemstack = new ItemStack(Items.ARROW);
+                    itemstack = new ItemStack(Items.ARROW, 64);
                 }
 
                 float f = getPowerForTime(i);
@@ -161,7 +161,7 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
                             //pLevel.addParticle(ParticleTypes.EFFECT, hit.x, hit.y, hit.z, 0.0f, 0.0f, 0.0f);
                             int num = Mth.lerpInt(f, 1, 5);
-                            for (int a = 0; a < num; a++){
+                            for (int a = 0; a < Math.min(num, itemstack.getCount()); a++){
 
                                 int height = 0;
 
@@ -202,6 +202,13 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
                                     pLevel.addParticle(ParticleTypes.CLOUD, abstractarrow.getX(), abstractarrow.getY(), abstractarrow.getZ(), 0.0f, 0.0f, 0.0f);
                                 }
 
+                                if (!flag1 && !player.getAbilities().instabuild) {
+                                    itemstack.shrink(1);
+                                    if (itemstack.isEmpty()) {
+                                        player.getInventory().removeItem(itemstack);
+                                    }
+                                }
+
                             }
 
                         }
@@ -211,12 +218,6 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
                         });
 
                         pLevel.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-                        if (!flag1 && !player.getAbilities().instabuild) {
-                            itemstack.shrink(1);
-                            if (itemstack.isEmpty()) {
-                                player.getInventory().removeItem(itemstack);
-                            }
-                        }
 
                         player.awardStat(Stats.ITEM_USED.get(this));
 
