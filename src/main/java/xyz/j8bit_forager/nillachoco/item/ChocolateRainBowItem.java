@@ -23,11 +23,10 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
 
@@ -78,13 +77,24 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
             int useTime = this.getUseDuration(pStack) - pRemainingUseDuration;
             Vec3 view = player.getViewVector(0);
             Vec3 eyeVec = player.getEyePosition(0);
-            HitResult ray = pLevel.clip(new ClipContext(eyeVec, eyeVec.add(
+            HitResult ray = null;
+            BlockHitResult bray = pLevel.clip(new ClipContext(eyeVec, eyeVec.add(
                     view.x * this.distance, view.y * this.distance, view.z * this.distance),
                     ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+            EntityHitResult eray = ProjectileUtil.getEntityHitResult(player, eyeVec, eyeVec.add(view.scale(this.distance)),
+                    new AABB(eyeVec, eyeVec.add(0.5, 0.5, 0.5)), (e) ->{
+                        return !e.is(player) && !e.isSpectator();
+                    }, distance);
+            if (eray == null || bray.distanceTo(player) < eray.distanceTo(player)){
+                ray = bray;
+            }
+            else{
+                ray = eray;
+            }
 
             Vec3 hit = ray.getLocation();
 
-            if (ray.distanceTo(player) <= distance && ray.getType() != HitResult.Type.MISS){
+            if (ray != null && ray.distanceTo(player) <= distance && ray.getType() != HitResult.Type.MISS){
 
                 Direction dir = Direction.UP;
                 if (ray.getType() == HitResult.Type.BLOCK){
@@ -151,13 +161,25 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
                         Vec3 view = player.getViewVector(0);
                         Vec3 eyeVec = player.getEyePosition(0);
-                        HitResult ray = pLevel.clip(new ClipContext(eyeVec, eyeVec.add(
+
+                        HitResult ray = null;
+                        BlockHitResult bray = pLevel.clip(new ClipContext(eyeVec, eyeVec.add(
                                 view.x * this.distance, view.y * this.distance, view.z * this.distance),
                                 ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+                        EntityHitResult eray = ProjectileUtil.getEntityHitResult(player, eyeVec, eyeVec.add(view.scale(this.distance)),
+                                new AABB(eyeVec, eyeVec.add(0.5, 0.5, 0.5)), (e) ->{
+                                    return !e.is(player) && !e.isSpectator();
+                                }, distance);
+                        if (eray == null || bray.distanceTo(player) < eray.distanceTo(player)){
+                            ray = bray;
+                        }
+                        else{
+                            ray = eray;
+                        }
                         Vec3 hit = ray.getLocation();
                         Random random = new Random();
 
-                        if (ray.distanceTo(player) <= this.distance && ray.getType() != HitResult.Type.MISS){
+                        if (ray != null && ray.distanceTo(player) <= this.distance && ray.getType() != HitResult.Type.MISS){
 
                             //pLevel.addParticle(ParticleTypes.EFFECT, hit.x, hit.y, hit.z, 0.0f, 0.0f, 0.0f);
                             int num = Mth.lerpInt(f, 1, 5);
