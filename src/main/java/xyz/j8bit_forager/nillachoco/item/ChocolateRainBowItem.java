@@ -1,5 +1,6 @@
 package xyz.j8bit_forager.nillachoco.item;
 
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -15,15 +16,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.ArrowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 import java.util.Comparator;
 import java.util.List;
@@ -75,8 +74,8 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
         if (pLivingEntity instanceof Player player) {
 
             int useTime = this.getUseDuration(pStack) - pRemainingUseDuration;
-            Vec3 view = player.getViewVector(0);
-            Vec3 eyeVec = player.getEyePosition(0);
+            Vec3 view = player.getViewVector(1);
+            Vec3 eyeVec = player.getEyePosition(1);
             HitResult ray = null;
             BlockHitResult bray = pLevel.clip(new ClipContext(eyeVec, eyeVec.add(
                     view.x * this.distance, view.y * this.distance, view.z * this.distance),
@@ -159,8 +158,8 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
                         // arrow stuff
 
-                        Vec3 view = player.getViewVector(0);
-                        Vec3 eyeVec = player.getEyePosition(0);
+                        Vec3 view = player.getViewVector(1);
+                        Vec3 eyeVec = player.getEyePosition(1);
 
                         HitResult ray = null;
                         BlockHitResult bray = pLevel.clip(new ClipContext(eyeVec, eyeVec.add(
