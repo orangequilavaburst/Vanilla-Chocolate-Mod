@@ -33,6 +33,7 @@ import xyz.j8bit_forager.nillachoco.item.ModItems;
 import xyz.j8bit_forager.nillachoco.entity.ModEntityTypes;
 import xyz.j8bit_forager.nillachoco.particle.ModParticles;
 import xyz.j8bit_forager.nillachoco.particle.custom.RainIndicatorParticle;
+import xyz.j8bit_forager.nillachoco.potion.ModPotions;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(NillaChocoMod.MOD_ID)
@@ -54,6 +55,7 @@ public class NillaChocoMod
         ModEffects.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         ModParticles.register(modEventBus);
+        ModPotions.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);

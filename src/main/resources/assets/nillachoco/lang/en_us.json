@@ -41,8 +41,17 @@
   "block.nillachoco.chocolate_cake": "Chocolate Cake",
   "block.nillachoco.vanilla_scented_candle": "Vanilla Scented Candle",
 
+  "item.minecraft.potion.effect.warmth_potion": "Potion of Warmth",
+  "item.minecraft.splash_potion.effect.warmth_potion": "Splash Potion of Warmth",
+  "item.minecraft.lingering_potion.effect.warmth_potion": "Lingering Potion of Warmth",
+  "item.minecraft.potion.effect.chilling_potion": "Potion of Chilling",
+  "item.minecraft.splash_potion.effect.chilling_potion": "Splash Potion of Chilling",
+  "item.minecraft.lingering_potion.effect.chilling_potion": "Lingering Potion of Chilling",
+
   "effect.nillachoco.warmth": "Warmth",
   "effect.nillachoco.warmth.warning_text": "It's too hot!",
+  "effect.nillachoco.chilling": "Chilling",
+  "effect.nillachoco.chilling.warning_text": "It's too cold!",
 
   "entity.nillachoco.chocolate_arrow": "Chocolate Arrow",
   "entity.nillachoco.chocolate_egg": "Chocolate Egg",

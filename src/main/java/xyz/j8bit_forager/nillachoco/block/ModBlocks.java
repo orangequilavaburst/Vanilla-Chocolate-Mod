@@ -91,6 +91,7 @@ public class ModBlocks {
     public static class Tags{
 
         public static final TagKey<Block> DESTROYED_BY_WARMTH = create("destroyed_by_warmth");
+        public static final TagKey<Block> DESTROYED_BY_CHILLING = create("destroyed_by_chilling");
 
         private static TagKey<Block> create(String location){
 
