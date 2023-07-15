@@ -1,5 +1,6 @@
 package xyz.j8bit_forager.nillachoco.effect;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
