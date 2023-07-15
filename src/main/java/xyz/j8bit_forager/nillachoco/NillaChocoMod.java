@@ -1,14 +1,17 @@
 package xyz.j8bit_forager.nillachoco;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -18,6 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 import xyz.j8bit_forager.nillachoco.block.ModBlocks;
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.ChocolateArrowRenderer;
@@ -26,6 +30,8 @@ import xyz.j8bit_forager.nillachoco.effect.ModEffects;
 import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
 import xyz.j8bit_forager.nillachoco.item.ModItems;
 import xyz.j8bit_forager.nillachoco.entity.ModEntityTypes;
+import xyz.j8bit_forager.nillachoco.particle.ModParticles;
+import xyz.j8bit_forager.nillachoco.particle.custom.RainIndicatorParticle;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(NillaChocoMod.MOD_ID)
@@ -46,6 +52,7 @@ public class NillaChocoMod
         ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
         ModEntityTypes.register(modEventBus);
+        ModParticles.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -119,6 +126,8 @@ public class NillaChocoMod
 
             event.accept(ModItems.VANILLA_SWORD);
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
+            event.accept(ModItems.CHOCOLATE_ARROW);
+            event.accept(ModItems.CHOCOLATE_EGG);
 
         }
         if (event.getTabKey() == ModItemGroups.VANILLA_CHOCOLATE_TAB.getKey()){
@@ -163,6 +172,8 @@ public class NillaChocoMod
             // weapons
             event.accept(ModItems.VANILLA_SWORD);
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
+            event.accept(ModItems.CHOCOLATE_ARROW);
+            event.accept(ModItems.CHOCOLATE_EGG);
 
             // other blocks
             event.accept(ModBlocks.VANILLA_SCENTED_CANDLE);
@@ -194,6 +205,12 @@ public class NillaChocoMod
         public static void entityRendererEvent(EntityRenderersEvent.RegisterRenderers event){
             event.registerEntityRenderer(ModEntityTypes.CHOCOLATE_ARROW_ENTITY.get(), ChocolateArrowRenderer::new);
             event.registerEntityRenderer(ModEntityTypes.VANILLA_PROJECTILE_ENTITY.get(), VanillaProjectileRenderer::new);
+            event.registerEntityRenderer(ModEntityTypes.CHOCOLATE_EGG_ENTITY.get(), ThrownItemRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void registerParticleFactories(RegisterParticleProvidersEvent event){
+            Minecraft.getInstance().particleEngine.register(ModParticles.RAIN_INDICATOR.get(), RainIndicatorParticle.Provider::new);
         }
 
     }

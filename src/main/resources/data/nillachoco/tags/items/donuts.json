@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "nillachoco:raw_donut_ring",
+    "nillachoco:plain_donut",
+    "nillachoco:glazed_donut",
+    "nillachoco:vanilla_frosted_donut",
+    "nillachoco:chocolate_frosted_donut",
+    "nillachoco:sprinkle_donut",
+    "nillachoco:honey_donut",
+    "nillachoco:slime_donut",
+    "nillachoco:spider_donut"
+  ]
+}

@@ -20,6 +20,8 @@
   "item.nillachoco.spider_donut": "Spider Donut",
 
   "item.nillachoco.chocolate_rain_bow": "Chocolate Rain Bow",
+  "item.nillachoco.chocolate_arrow": "Chocolate Arrow",
+  "item.nillachoco.chocolate_egg": "Chocolate Egg",
   "item.nillachoco.vanilla_sword": "Vanilla Sword (Name WIP)",
 
   "block.nillachoco.vanilla_plant": "Vanilla Plant",
@@ -43,6 +45,7 @@
   "effect.nillachoco.warmth.warning_text": "It's too hot!",
 
   "entity.nillachoco.chocolate_arrow": "Chocolate Arrow",
+  "entity.nillachoco.chocolate_egg": "Chocolate Egg",
   "entity.nillachoco.vanilla_projectile": "Vanilla Orchid Projectile",
 
   "creativemodetab.nillachoco_tab": "Nillachoco Mod"
