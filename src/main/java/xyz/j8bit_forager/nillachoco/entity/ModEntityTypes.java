@@ -1,8 +1,14 @@
 package xyz.j8bit_forager.nillachoco.entity;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -31,6 +37,17 @@ public class ModEntityTypes {
 
     public static void register(IEventBus eventBus){
         ENTITY_TYPES.register(eventBus);
+    }
+
+    public static class Tags{
+
+        public static final TagKey<EntityType<?>> HURT_BY_WARMTH = create("hurt_by_warmth");
+        public static final TagKey<EntityType<?>> HURT_BY_CHILLING = create("hurt_by_chilling");
+
+        private static TagKey<EntityType<?>> create(String pName) {
+            return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(NillaChocoMod.MOD_ID, pName));
+        }
+
     }
 
 }
