@@ -56,9 +56,8 @@ public class WarmthEffect extends MobEffect {
             }
 
             List<LivingEntity> entities = world.getEntities(EntityTypeTest.forClass(LivingEntity.class),
-                    pLivingEntity.getBoundingBox().inflate(2.0), (entity) -> {
-                        return entity.isPickable() && entity.getTags().contains(ModEntityTypes.Tags.HURT_BY_WARMTH);
-                    });
+                    pLivingEntity.getBoundingBox().inflate(2.0),
+                    (entity) -> entity.isPickable() && entity.getType().is(ModEntityTypes.Tags.HURT_BY_WARMTH));
             if (entities.size() > 0){
                 for (LivingEntity le : entities){
                     le.hurt(pLivingEntity.damageSources().magic(), 2.0f);

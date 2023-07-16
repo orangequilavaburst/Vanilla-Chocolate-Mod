@@ -1,5 +1,6 @@
 package xyz.j8bit_forager.nillachoco.effect;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -56,9 +57,8 @@ public class ChillingEffect extends MobEffect {
                 }
             }
             List<LivingEntity> entities = world.getEntities(EntityTypeTest.forClass(LivingEntity.class),
-                    pLivingEntity.getBoundingBox().inflate(2.0), (entity) -> {
-                        return entity.isPickable() && entity.getTags().contains(ModEntityTypes.Tags.HURT_BY_CHILLING);
-                    });
+                    pLivingEntity.getBoundingBox().inflate(2.0),
+                    (entity) -> entity.isPickable() && entity.getType().is(ModEntityTypes.Tags.HURT_BY_CHILLING));
             if (entities.size() > 0){
                 for (LivingEntity le : entities){
                     le.hurt(pLivingEntity.damageSources().magic(), 2.0f);
