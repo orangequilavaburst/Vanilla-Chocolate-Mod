@@ -51,7 +51,12 @@ public class WarmthEffect extends MobEffect {
                     .collect(Collectors.toList());
             if (blocks.size() > 0) {
                 for (BlockPos bp : blocks) {
-                    world.destroyBlock(bp, true, pLivingEntity);
+                    if (world.getBlockState(bp).is(Blocks.ICE)){
+                        world.setBlockAndUpdate(bp, Blocks.WATER.defaultBlockState());
+                    }
+                    else {
+                        world.destroyBlock(bp, true, pLivingEntity);
+                    }
                 }
             }
 
