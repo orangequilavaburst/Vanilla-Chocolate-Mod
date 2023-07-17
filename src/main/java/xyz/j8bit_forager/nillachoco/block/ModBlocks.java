@@ -25,10 +25,10 @@ public class ModBlocks {
             () -> new VanillaPlantCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)));
 
     public static final RegistryObject<Block> COCOA_BEAN_BLOCK = registerBlock("cocoa_bean_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
 
     public static final RegistryObject<Block> COCOA_HUSK_BLOCK = registerBlock("cocoa_husk_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).strength(0.2F, 3.0F).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> CHOCOLATE_BLOCK = registerBlock("chocolate_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE).strength(1.0f, 8.0f).requiresCorrectToolForDrops()));
 
