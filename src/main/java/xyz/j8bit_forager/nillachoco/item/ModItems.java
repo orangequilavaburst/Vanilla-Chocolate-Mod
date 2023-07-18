@@ -1,5 +1,9 @@
 package xyz.j8bit_forager.nillachoco.item;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -8,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -118,9 +123,27 @@ public class ModItems {
     public static final RegistryObject<Item> VANILLA_SWORD = ITEMS.register("vanilla_sword",
             () -> new VanillaSwordItem(new Item.Properties().rarity(Rarity.RARE)));
 
+    public static final RegistryObject<Item> CHOCOLATE_ARROW = ITEMS.register("chocolate_arrow",
+            () -> new ChocolateArrowItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> CHOCOLATE_EGG = ITEMS.register("chocolate_egg",
+            () -> new ChocolateEggItem(new Item.Properties().stacksTo(16)));
+
     public static void register(IEventBus eb){
 
         ITEMS.register(eb);
+
+    }
+
+    public static class Tags{
+
+        public static final TagKey<Item> DONUTS = create("donuts");
+
+        private static TagKey<Item> create(String location){
+
+            return ItemTags.create(new ResourceLocation(NillaChocoMod.MOD_ID, location));
+
+        }
 
     }
 

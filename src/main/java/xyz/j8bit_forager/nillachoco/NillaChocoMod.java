@@ -1,24 +1,21 @@
 package xyz.j8bit_forager.nillachoco;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.FishingHook;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,6 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 import xyz.j8bit_forager.nillachoco.block.ModBlocks;
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.ChocolateArrowRenderer;
@@ -34,7 +32,9 @@ import xyz.j8bit_forager.nillachoco.effect.ModEffects;
 import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
 import xyz.j8bit_forager.nillachoco.item.ModItems;
 import xyz.j8bit_forager.nillachoco.entity.ModEntityTypes;
-import xyz.j8bit_forager.nillachoco.sound.ModSounds;
+import xyz.j8bit_forager.nillachoco.particle.ModParticles;
+import xyz.j8bit_forager.nillachoco.particle.custom.RainIndicatorParticle;
+import xyz.j8bit_forager.nillachoco.potion.ModPotions;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(NillaChocoMod.MOD_ID)
@@ -55,7 +55,8 @@ public class NillaChocoMod
         ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
         ModEntityTypes.register(modEventBus);
-        ModSounds.register(modEventBus);
+        ModParticles.register(modEventBus);
+        ModPotions.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -108,7 +109,6 @@ public class NillaChocoMod
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS){
 
             event.accept(ModItems.SUGAR_COOKIE);
-            event.accept(ModItems.YOSHI_COOKIE);
             event.accept(ModItems.CHOCOLATE_BAR);
             event.accept(ModItems.FUDGE_BROWNIE);
 
@@ -130,6 +130,8 @@ public class NillaChocoMod
 
             event.accept(ModItems.VANILLA_SWORD);
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
+            event.accept(ModItems.CHOCOLATE_ARROW);
+            event.accept(ModItems.CHOCOLATE_EGG);
 
         }
         if (event.getTabKey() == ModItemGroups.VANILLA_CHOCOLATE_TAB.getKey()){
@@ -139,7 +141,6 @@ public class NillaChocoMod
             event.accept(ModItems.VANILLA_BEAN);
             event.accept(ModItems.VANILLA_EXTRACT);
             event.accept(ModItems.SUGAR_COOKIE);
-            event.accept(ModItems.YOSHI_COOKIE);
 
             // chocolate
             event.accept(ModItems.CHOCOLATE_BAR);
@@ -175,6 +176,8 @@ public class NillaChocoMod
             // weapons
             event.accept(ModItems.VANILLA_SWORD);
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
+            event.accept(ModItems.CHOCOLATE_ARROW);
+            event.accept(ModItems.CHOCOLATE_EGG);
 
             // other blocks
             event.accept(ModBlocks.VANILLA_SCENTED_CANDLE);
@@ -206,53 +209,12 @@ public class NillaChocoMod
         public static void entityRendererEvent(EntityRenderersEvent.RegisterRenderers event){
             event.registerEntityRenderer(ModEntityTypes.CHOCOLATE_ARROW_ENTITY.get(), ChocolateArrowRenderer::new);
             event.registerEntityRenderer(ModEntityTypes.VANILLA_PROJECTILE_ENTITY.get(), VanillaProjectileRenderer::new);
-        }
-
-    }
-
-    @Mod.EventBusSubscriber(modid = NillaChocoMod.MOD_ID)
-    public static class ModEvents {
-        @SubscribeEvent
-        public static void useItemFinishEvent(final LivingEntityUseItemEvent.Finish event){
-
-            if (event.getEntity() instanceof Player player){
-
-                ItemStack itemStack = event.getItem();
-
-                //BaseMod.LOGGER.info(itemStack.getDisplayName().getString() + " was used! (Finish)");
-                if (itemStack.is(ModItems.YOSHI_COOKIE.get())){
-                    player.playSound(ModSounds.YOSHI_COOKIE_SOUND.get(), 0.5f, 1.0f);
-                    player.setDeltaMovement(player.getDeltaMovement().add(0.0f, 0.25f, 0.0f));
-                }
-
-            }
-
+            event.registerEntityRenderer(ModEntityTypes.CHOCOLATE_EGG_ENTITY.get(), ThrownItemRenderer::new);
         }
 
         @SubscribeEvent
-        public static void useItemStartEvent(final LivingEntityUseItemEvent.Start event){
-
-            if (event.getEntity() instanceof Player player){
-
-                ItemStack itemStack = event.getItem();
-
-                //BaseMod.LOGGER.info(itemStack.getDisplayName().getString() + " was used! (Start)");
-
-            }
-
-        }
-
-        @SubscribeEvent
-        public static void useItemStopEvent(final LivingEntityUseItemEvent.Stop event){
-
-            if (event.getEntity() instanceof Player player){
-
-                ItemStack itemStack = event.getItem();
-
-                //BaseMod.LOGGER.info(itemStack.getDisplayName().getString() + " was used! (Stop)");
-
-            }
-
+        public static void registerParticleFactories(RegisterParticleProvidersEvent event){
+            Minecraft.getInstance().particleEngine.register(ModParticles.RAIN_INDICATOR.get(), RainIndicatorParticle.Provider::new);
         }
 
     }

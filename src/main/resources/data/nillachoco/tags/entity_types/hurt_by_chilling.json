@@ -1,0 +1,11 @@
+{
+
+  "replace": false,
+  "values": [
+
+    "minecraft:blaze",
+    "minecraft:magma_cube",
+    "minecraft:husk",
+    "minecraft:slime"
+  ]
+}
