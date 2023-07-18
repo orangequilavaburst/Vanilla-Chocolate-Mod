@@ -3,14 +3,22 @@ package xyz.j8bit_forager.nillachoco;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,6 +34,7 @@ import xyz.j8bit_forager.nillachoco.effect.ModEffects;
 import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
 import xyz.j8bit_forager.nillachoco.item.ModItems;
 import xyz.j8bit_forager.nillachoco.entity.ModEntityTypes;
+import xyz.j8bit_forager.nillachoco.sound.ModSounds;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(NillaChocoMod.MOD_ID)
@@ -46,6 +55,7 @@ public class NillaChocoMod
         ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
         ModEntityTypes.register(modEventBus);
+        ModSounds.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -98,6 +108,7 @@ public class NillaChocoMod
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS){
 
             event.accept(ModItems.SUGAR_COOKIE);
+            event.accept(ModItems.YOSHI_COOKIE);
             event.accept(ModItems.CHOCOLATE_BAR);
             event.accept(ModItems.FUDGE_BROWNIE);
 
@@ -128,6 +139,7 @@ public class NillaChocoMod
             event.accept(ModItems.VANILLA_BEAN);
             event.accept(ModItems.VANILLA_EXTRACT);
             event.accept(ModItems.SUGAR_COOKIE);
+            event.accept(ModItems.YOSHI_COOKIE);
 
             // chocolate
             event.accept(ModItems.CHOCOLATE_BAR);
@@ -197,4 +209,52 @@ public class NillaChocoMod
         }
 
     }
+
+    @Mod.EventBusSubscriber(modid = NillaChocoMod.MOD_ID)
+    public static class ModEvents {
+        @SubscribeEvent
+        public static void useItemFinishEvent(final LivingEntityUseItemEvent.Finish event){
+
+            if (event.getEntity() instanceof Player player){
+
+                ItemStack itemStack = event.getItem();
+
+                //BaseMod.LOGGER.info(itemStack.getDisplayName().getString() + " was used! (Finish)");
+                if (itemStack.is(ModItems.YOSHI_COOKIE.get())){
+                    player.playSound(ModSounds.YOSHI_COOKIE_SOUND.get(), 0.5f, 1.0f);
+                    player.setDeltaMovement(player.getDeltaMovement().add(0.0f, 0.25f, 0.0f));
+                }
+
+            }
+
+        }
+
+        @SubscribeEvent
+        public static void useItemStartEvent(final LivingEntityUseItemEvent.Start event){
+
+            if (event.getEntity() instanceof Player player){
+
+                ItemStack itemStack = event.getItem();
+
+                //BaseMod.LOGGER.info(itemStack.getDisplayName().getString() + " was used! (Start)");
+
+            }
+
+        }
+
+        @SubscribeEvent
+        public static void useItemStopEvent(final LivingEntityUseItemEvent.Stop event){
+
+            if (event.getEntity() instanceof Player player){
+
+                ItemStack itemStack = event.getItem();
+
+                //BaseMod.LOGGER.info(itemStack.getDisplayName().getString() + " was used! (Stop)");
+
+            }
+
+        }
+
+    }
+
 }

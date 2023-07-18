@@ -27,6 +27,9 @@ public class ModItems {
     public static final RegistryObject<Item> SUGAR_COOKIE = ITEMS.register("sugar_cookie",
             () -> new Item(new Item.Properties().food(Foods.COOKIE)));
 
+    public static final RegistryObject<Item> YOSHI_COOKIE = ITEMS.register("yoshi_cookie",
+            () -> new Item(new Item.Properties().food((new FoodProperties.Builder()).nutrition(4).saturationMod(1.0F).build())));
+
     public static final RegistryObject<Item> CHOCOLATE_BAR = ITEMS.register("chocolate_bar",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).build())));
 

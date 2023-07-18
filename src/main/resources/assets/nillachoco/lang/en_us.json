@@ -8,6 +8,7 @@
 
   "item.nillachoco.fudge_brownie": "Fudge Brownie",
   "item.nillachoco.sugar_cookie": "Sugar Cookie",
+  "item.nillachoco.yoshi_cookie": "Yoshi Cookie",
 
   "item.nillachoco.raw_donut_ring": "Raw Donut Ring",
   "item.nillachoco.plain_donut": "Plain Donut",
@@ -45,6 +46,8 @@
   "entity.nillachoco.chocolate_arrow": "Chocolate Arrow",
   "entity.nillachoco.vanilla_projectile": "Vanilla Orchid Projectile",
 
-  "creativemodetab.nillachoco_tab": "Nillachoco Mod"
+  "creativemodetab.nillachoco_tab": "Nillachoco Mod",
+
+  "sounds.nillachoco.yoshi_cookie": "Yoshi Cookie eaten"
 
 }
