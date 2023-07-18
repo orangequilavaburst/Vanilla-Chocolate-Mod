@@ -1,7 +1,6 @@
 package xyz.j8bit_forager.nillachoco.item;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -11,8 +10,6 @@ import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TridentItem;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -33,7 +30,7 @@ public class ModItems {
             () -> new Item(new Item.Properties().food(Foods.COOKIE)));
 
     public static final RegistryObject<Item> YOSHI_COOKIE = ITEMS.register("yoshi_cookie",
-            () -> new Item(new Item.Properties().food((new FoodProperties.Builder()).nutrition(4).saturationMod(1.0F).build())));
+            () -> new Item(new Item.Properties().food((new FoodProperties.Builder()).nutrition(4).saturationMod(1.0F).alwaysEat().build())));
 
     public static final RegistryObject<Item> CHOCOLATE_BAR = ITEMS.register("chocolate_bar",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).build())));
