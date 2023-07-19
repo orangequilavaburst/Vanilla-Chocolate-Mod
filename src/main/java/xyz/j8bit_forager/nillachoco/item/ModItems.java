@@ -38,6 +38,9 @@ public class ModItems {
     public static final RegistryObject<Item> FUDGE_BROWNIE = ITEMS.register("fudge_brownie",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).build())));
 
+    public static final RegistryObject<Item> VANILLA_CREAM_PIE = ITEMS.register("vanilla_cream_pie",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).build())));
+
     public static final RegistryObject<Item> RAW_DONUT_RING = ITEMS.register("raw_donut_ring",
             () -> new DonutItem(new Item.Properties()
                     .food(new FoodProperties.Builder()

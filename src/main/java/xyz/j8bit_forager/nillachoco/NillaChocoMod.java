@@ -8,10 +8,12 @@ import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -19,6 +21,7 @@ import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -77,6 +80,27 @@ public class NillaChocoMod
     {
 
         ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.VANILLA_ORCHID.getId(), ModBlocks.POTTED_VANILLA_ORCHID);
+        ComposterBlock.COMPOSTABLES.put(ModItems.VANILLA_BEAN.get(), 0.3f);
+        ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.VANILLA_ORCHID.get()), 0.65f);
+        ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.COCOA_BEAN_BLOCK.get()), 1.0f);
+        ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.COCOA_HUSK_BLOCK.get()), 1.0f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.CHOCOLATE_BAR.get(), 0.75f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.CHOCOLATE_EGG.get(), 0.8f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.SUGAR_COOKIE.get(), 0.85f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.YOSHI_COOKIE.get(), 1.0f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.RAW_DONUT_RING.get(), 0.85f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.PLAIN_DONUT.get(), 0.85f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.GLAZED_DONUT.get(), 0.9f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.VANILLA_FROSTED_DONUT.get(), 0.95f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.CHOCOLATE_FROSTED_DONUT.get(), 0.95f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.SLIME_DONUT.get(), 0.95f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.SPIDER_DONUT.get(), 0.95f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.SPRINKLE_DONUT.get(), 0.95f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.HONEY_DONUT.get(), 0.95f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.FUDGE_BROWNIE.get(), 1.0f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.VANILLA_CREAM_PIE.get(), 1.0f);
+        ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.VANILLA_CAKE.get()), 1.0f);
+        ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.CHOCOLATE_CAKE.get()), 1.0f);
 
     }
 
@@ -117,6 +141,7 @@ public class NillaChocoMod
             event.accept(ModItems.YOSHI_COOKIE);
             event.accept(ModItems.CHOCOLATE_BAR);
             event.accept(ModItems.FUDGE_BROWNIE);
+            event.accept(ModItems.VANILLA_CREAM_PIE);
 
             event.accept(ModItems.RAW_DONUT_RING);
             event.accept(ModItems.PLAIN_DONUT);
@@ -146,6 +171,7 @@ public class NillaChocoMod
             event.accept(ModBlocks.VANILLA_ORCHID);
             event.accept(ModItems.VANILLA_BEAN);
             event.accept(ModItems.VANILLA_EXTRACT);
+            event.accept(ModItems.VANILLA_CREAM_PIE);
             event.accept(ModItems.SUGAR_COOKIE);
             event.accept(ModItems.YOSHI_COOKIE);
 
