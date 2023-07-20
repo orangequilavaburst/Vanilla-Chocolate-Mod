@@ -1,17 +1,21 @@
 package xyz.j8bit_forager.nillachoco;
 
 import com.mojang.logging.LogUtils;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
@@ -21,27 +25,31 @@ import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 import xyz.j8bit_forager.nillachoco.block.ModBlocks;
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.ChocolateArrowRenderer;
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.VanillaProjectileRenderer;
 import xyz.j8bit_forager.nillachoco.effect.ModEffects;
+import xyz.j8bit_forager.nillachoco.entity.ModEntityTypes;
 import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
 import xyz.j8bit_forager.nillachoco.item.ModItems;
-import xyz.j8bit_forager.nillachoco.entity.ModEntityTypes;
 import xyz.j8bit_forager.nillachoco.particle.ModParticles;
 import xyz.j8bit_forager.nillachoco.particle.custom.RainIndicatorParticle;
 import xyz.j8bit_forager.nillachoco.potion.ModPotions;
 import xyz.j8bit_forager.nillachoco.sound.ModSounds;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(NillaChocoMod.MOD_ID)
@@ -265,6 +273,54 @@ public class NillaChocoMod
                     player.setDeltaMovement(player.getDeltaMovement().add(0.0, 0.25, 0.0));
                 }
             }
+
+        }
+
+        @SubscribeEvent
+        public static void villagerTradesSetup(VillagerTradesEvent event){
+
+            List<VillagerTrades.ItemListing> noviceTrades = event.getTrades().get(1);
+            List<VillagerTrades.ItemListing> apprenticeTrades = event.getTrades().get(2);
+            List<VillagerTrades.ItemListing> journeymanTrades = event.getTrades().get(3);
+            List<VillagerTrades.ItemListing> expertTrades = event.getTrades().get(4);
+            List<VillagerTrades.ItemListing> masterTrades = event.getTrades().get(5);
+
+            if (event.getType() == VillagerProfession.WEAPONSMITH) {
+
+                masterTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, rand.nextInt(48, 64)), new ItemStack(ModItems.CHOCOLATE_BAR.get(), rand.nextInt(48, 64)), new ItemStack(ModItems.VANILLA_SWORD.get(), 1), 1, 8, 0.02f));
+
+            }
+            if (event.getType() == VillagerProfession.FLETCHER){
+
+                journeymanTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, rand.nextInt(4, 8)), new ItemStack(Items.ARROW, rand.nextInt(4, 8)), new ItemStack(ModItems.CHOCOLATE_ARROW.get(), rand.nextInt(4, 8)), 16, 8, 0.02f));
+                masterTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, rand.nextInt(48, 64)), new ItemStack(ModItems.CHOCOLATE_BAR.get(), rand.nextInt(48, 64)), new ItemStack(ModItems.CHOCOLATE_RAIN_BOW.get(), 1), 1, 8, 0.02f));
+
+            }
+            if (event.getType() == VillagerProfession.FARMER){
+
+                journeymanTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, rand.nextInt(8, 12)), new ItemStack(ModItems.VANILLA_BEAN.get(), rand.nextInt(1, 3)), 16, 8, 0.02f));
+
+            }
+            if (event.getType() == VillagerProfession.CLERIC){
+
+                apprenticeTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, rand.nextInt(8, 12)), new ItemStack(ModItems.VANILLA_EXTRACT.get(), rand.nextInt(1, 3)), 64, 8, 0.02f));
+
+            }
+
+        }
+
+        @SubscribeEvent
+        public static void wanderingTraderTradesSetup(WandererTradesEvent event){
+
+            List<VillagerTrades.ItemListing> trades = event.getGenericTrades();
+            List<VillagerTrades.ItemListing> specialTrades = event.getRareTrades();
+            trades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 2), new ItemStack(ModBlocks.VANILLA_ORCHID.get(), 1), 10, 8, 0.0f));
+            trades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 2), new ItemStack(ModItems.CHOCOLATE_BAR.get(), rand.nextInt(2, 6)), 10, 8, 0.0f));
+            trades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 1), new ItemStack(ModItems.VANILLA_BEAN.get(), 1), 10, 8, 0.0f));
+            trades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 2), new ItemStack(ModItems.RAW_DONUT_RING.get(), 1), 10, 8, 0.0f));
+            specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 3), new ItemStack(ModItems.YOSHI_COOKIE.get(), 1), 10, 8, 0.0f));
+            specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 64), new ItemStack(ModItems.VANILLA_SWORD.get(), 1), 10, 8, 0.0f));
+            specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 64), new ItemStack(ModItems.CHOCOLATE_RAIN_BOW.get(), 1), 10, 8, 0.0f));
 
         }
 
