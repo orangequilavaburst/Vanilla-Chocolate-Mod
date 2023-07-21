@@ -33,7 +33,7 @@ import java.util.function.Predicate;
 public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
     private final double distance = 200.0d;
-    private final double maxHeight = 5.0d;
+    private final double maxHeight = 10.0d;
 
     public ChocolateRainBowItem(Properties pProperties) {
         super(pProperties);
@@ -171,7 +171,7 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
                                 int height = 0;
 
-                                while (pLevel.getBlockState(BlockPos.containing(ray.getLocation().add(0, height, 0))).isAir() && height < maxHeight - 1){
+                                while (pLevel.getBlockState(BlockPos.containing(ray.getLocation().add(0, height, 0))).isAir() && height < this.maxHeight - 1){
                                     /*pLevel.getServer().sendSystemMessage(Component.literal("Height is ")
                                             .append(Component.literal(Integer.toString(height)))
                                             .append(Component.literal(", Block is "))
@@ -188,6 +188,7 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
                                 abstractarrow.setPos(abstractarrow.position().add(random.nextFloat(-0.5f, 0.5f), random.nextFloat(-2.0f, 2.0f), random.nextFloat(-0.5f, 0.5f)));
                                 abstractarrow.setPos(abstractarrow.position().x(), Mth.clamp(abstractarrow.position().y(), ray.getLocation().y() + 0.5f, ray.getLocation().y() + height - 0.5f), abstractarrow.position().z());
                                 abstractarrow.shoot(0.0f, -1.0f, 0.0f, 2.0f, 2.0f);
+
                                 if (f == 1.0F) {
                                     abstractarrow.setCritArrow(true);
                                 }
@@ -212,6 +213,14 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
                                 pLevel.addFreshEntity(abstractarrow);
 
+                                Vec3 arrowPos = abstractarrow.getPosition(1.0f);
+
+                                if (pLevel.isClientSide()){
+
+                                    pLevel.addParticle(ParticleTypes.CLOUD, arrowPos.x(), arrowPos.y(), arrowPos.z(), 0.0f, 0.0f, 0.0f);
+
+                                }
+
                                 if (!flag1 && !player.getAbilities().instabuild) {
                                     itemstack.shrink(1);
                                     if (itemstack.isEmpty()) {
@@ -221,15 +230,15 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
                             }
 
+                            pStack.hurtAndBreak(1, player, (p_289501_) -> {
+                                p_289501_.broadcastBreakEvent(player.getUsedItemHand());
+                            });
+
+                            pLevel.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+
+                            player.awardStat(Stats.ITEM_USED.get(this));
+
                         }
-
-                        pStack.hurtAndBreak(1, player, (p_289501_) -> {
-                            p_289501_.broadcastBreakEvent(player.getUsedItemHand());
-                        });
-
-                        pLevel.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-
-                        player.awardStat(Stats.ITEM_USED.get(this));
 
                     }
                 }
