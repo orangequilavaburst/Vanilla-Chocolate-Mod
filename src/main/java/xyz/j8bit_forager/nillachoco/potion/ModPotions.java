@@ -26,6 +26,18 @@ public class ModPotions {
     public static final RegistryObject<Potion> LONG_CHILLING_POTION = POTIONS.register("long_chilling_potion",
             () -> new Potion(new MobEffectInstance(ModEffects.CHILLING_EFFECT.get(), 1800, 0)));
 
+    public static final RegistryObject<Potion> ANIMOSITY_POTION = POTIONS.register("animosity_potion",
+            () -> new Potion(new MobEffectInstance(ModEffects.ANIMOSITY_EFFECT.get(), 600, 0)));
+
+    public static final RegistryObject<Potion> LONG_ANIMOSITY_POTION = POTIONS.register("long_animosity_potion",
+            () -> new Potion(new MobEffectInstance(ModEffects.ANIMOSITY_EFFECT.get(), 1800, 0)));
+
+    public static final RegistryObject<Potion> CALMING_POTION = POTIONS.register("calming_potion",
+            () -> new Potion(new MobEffectInstance(ModEffects.CALMING_EFFECT.get(), 600, 0)));
+
+    public static final RegistryObject<Potion> LONG_CALMING_POTION = POTIONS.register("long_calming_potion",
+            () -> new Potion(new MobEffectInstance(ModEffects.CALMING_EFFECT.get(), 1800, 0)));
+
     public static void register(IEventBus eb){
 
         POTIONS.register(eb);

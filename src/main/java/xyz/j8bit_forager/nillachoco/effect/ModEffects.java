@@ -17,6 +17,11 @@ public class ModEffects {
     public static final RegistryObject<MobEffect> CHILLING_EFFECT = MOB_EFFECTS.register("chilling",
             () -> new ChillingEffect(MobEffectCategory.NEUTRAL, 0x37e5ff));
 
+    public static final RegistryObject<MobEffect> ANIMOSITY_EFFECT = MOB_EFFECTS.register("animosity",
+            () -> new WarmthEffect(MobEffectCategory.HARMFUL, 0xffd979));
+    public static final RegistryObject<MobEffect> CALMING_EFFECT = MOB_EFFECTS.register("calming",
+            () -> new ChillingEffect(MobEffectCategory.BENEFICIAL, 0x301a0a));
+
     public static void register(IEventBus bus){
 
         MOB_EFFECTS.register(bus);
