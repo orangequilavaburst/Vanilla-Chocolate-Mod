@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "nillachoco:vanilla_extract"
+    },
+    {
+      "item": "nillachoco:vanilla_extract"
+    },
+    {
+      "item": "nillachoco:plain_donut"
+    }
+  ],
+  "result": {
+    "item": "nillachoco:vanilla_frosted_donut",
+    "count": 1
+  }
+}

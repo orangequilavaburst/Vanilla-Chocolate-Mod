@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "item": "minecraft:honeycomb"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "V": {
+      "item": "nillachoco:vanilla_extract"
+    }
+  },
+  "pattern": [
+    "SV",
+    "HV"
+  ],
+  "result": {
+    "item": "nillachoco:vanilla_scented_candle"
+  }
+}
