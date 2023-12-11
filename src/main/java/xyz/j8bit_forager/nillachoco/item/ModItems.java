@@ -117,6 +117,15 @@ public class ModItems {
                             .alwaysEat().build()
                     )));
 
+    public static final RegistryObject<Item> APPLE_FRITTER = ITEMS.register("apple_fritter",
+            () -> new DonutItem(new Item.Properties()
+                    .food(new FoodProperties.Builder()
+                            .nutrition(7)
+                            .saturationMod(6.0f)
+                            .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 600), 1.0f)
+                            .alwaysEat().build()
+                    )));
+
     public static final RegistryObject<Item> CHOCOLATE_RAIN_BOW = ITEMS.register("chocolate_rain_bow",
             () -> new ChocolateRainBowItem(new Item.Properties().rarity(Rarity.RARE)));
 

@@ -107,6 +107,7 @@ public class NillaChocoMod
         ComposterBlock.COMPOSTABLES.put(ModItems.CHOCOLATE_FROSTED_DONUT.get(), 0.95f);
         ComposterBlock.COMPOSTABLES.put(ModItems.SLIME_DONUT.get(), 0.95f);
         ComposterBlock.COMPOSTABLES.put(ModItems.SPIDER_DONUT.get(), 0.95f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.APPLE_FRITTER.get(), 0.95f);
         ComposterBlock.COMPOSTABLES.put(ModItems.SPRINKLE_DONUT.get(), 0.95f);
         ComposterBlock.COMPOSTABLES.put(ModItems.HONEY_DONUT.get(), 0.95f);
         ComposterBlock.COMPOSTABLES.put(ModItems.FUDGE_BROWNIE.get(), 1.0f);
@@ -164,6 +165,7 @@ public class NillaChocoMod
             event.accept(ModItems.HONEY_DONUT);
             event.accept(ModItems.SLIME_DONUT);
             event.accept(ModItems.SPIDER_DONUT);
+            event.accept(ModItems.APPLE_FRITTER);
 
             event.accept(ModBlocks.VANILLA_CAKE);
             event.accept(ModBlocks.CHOCOLATE_CAKE);
@@ -213,6 +215,7 @@ public class NillaChocoMod
             event.accept(ModItems.HONEY_DONUT);
             event.accept(ModItems.SLIME_DONUT);
             event.accept(ModItems.SPIDER_DONUT);
+            event.accept(ModItems.APPLE_FRITTER);
 
             // cake
             event.accept(ModBlocks.VANILLA_CAKE);
