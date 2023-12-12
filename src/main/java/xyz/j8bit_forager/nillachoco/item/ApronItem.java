@@ -4,6 +4,7 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -39,7 +40,7 @@ public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
 
         @Override
         public SoundEvent getEquipSound() {
-            return null;
+            return SoundEvents.ARMOR_EQUIP_GENERIC;
         }
 
         @Override
