@@ -40,7 +40,7 @@ public class ApronModel<T extends LivingEntity> extends HumanoidModel<T> {
     }
 
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        //NillaChocoMod.LOGGER.info("Colors of armor: " + red + ", " + green + ", " + blue);
+        //NillaChocoMod.LOGGER.info("[" + Minecraft.getInstance().getFrameTime() + "] Colors of armor: " + red + ", " + green + ", " + blue);
         body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
