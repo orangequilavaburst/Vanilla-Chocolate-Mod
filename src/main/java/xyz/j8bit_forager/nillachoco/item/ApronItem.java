@@ -77,7 +77,6 @@ public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
 
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot slot, HumanoidModel<?> original) {
-                //HumanoidModel<? extends LivingEntity> model = new FazbearMaskModel<>();
                 return new ApronModel<>();
             }
 

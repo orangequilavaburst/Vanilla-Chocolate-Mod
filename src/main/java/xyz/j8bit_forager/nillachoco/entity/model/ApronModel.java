@@ -2,10 +2,12 @@ package xyz.j8bit_forager.nillachoco.entity.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import xyz.j8bit_forager.nillachoco.NillaChocoMod;
@@ -38,7 +40,9 @@ public class ApronModel<T extends LivingEntity> extends HumanoidModel<T> {
     }
 
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        //NillaChocoMod.LOGGER.info("Colors of armor: " + red + ", " + green + ", " + blue);
         body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }
+
 
 }
