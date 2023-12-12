@@ -41,6 +41,7 @@ import xyz.j8bit_forager.nillachoco.client.renderer.entity.ChocolateArrowRendere
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.VanillaProjectileRenderer;
 import xyz.j8bit_forager.nillachoco.effect.ModEffects;
 import xyz.j8bit_forager.nillachoco.entity.ModEntityTypes;
+import xyz.j8bit_forager.nillachoco.item.ApronItem;
 import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
 import xyz.j8bit_forager.nillachoco.item.ModItems;
 import xyz.j8bit_forager.nillachoco.loot.ModLootModifiers;
@@ -265,6 +266,14 @@ public class NillaChocoMod
             Minecraft.getInstance().particleEngine.register(ModParticles.RAIN_INDICATOR.get(), RainIndicatorParticle.Provider::new);
         }
 
+        @SubscribeEvent
+        public static void itemColorsRegistryHandler(RegisterColorHandlersEvent.Item event) {
+            event.register((stack, color) -> color > 0 ? -1 :
+                            ((ApronItem)stack.getItem()).getColor(stack),
+                    ModItems.APRON.get());
+
+        }
+
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID)
@@ -388,14 +397,6 @@ public class NillaChocoMod
             specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 3), new ItemStack(ModItems.YOSHI_COOKIE.get(), 1), 10, 8, 0.0f));
             specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 64), new ItemStack(ModItems.VANILLA_SWORD.get(), 1), 10, 8, 0.0f));
             specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 64), new ItemStack(ModItems.CHOCOLATE_RAIN_BOW.get(), 1), 10, 8, 0.0f));
-
-        }
-
-        @SubscribeEvent
-        public static void itemColorsRegistryHandler(RegisterColorHandlersEvent.Item event) {
-            event.register((stack, color) -> color > 0 ? -1 :
-                    ((DyeableLeatherItem)stack.getItem()).getColor(stack),
-                    ModItems.APRON.get());
 
         }
 
