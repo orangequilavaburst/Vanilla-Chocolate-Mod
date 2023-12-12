@@ -11,10 +11,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.Blocks;
@@ -23,6 +20,7 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -177,6 +175,7 @@ public class NillaChocoMod
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
             event.accept(ModItems.CHOCOLATE_ARROW);
             event.accept(ModItems.CHOCOLATE_EGG);
+            event.accept(ModItems.APRON);
 
         }
         if (event.getTabKey() == ModItemGroups.VANILLA_CHOCOLATE_TAB.getKey()){
@@ -226,6 +225,7 @@ public class NillaChocoMod
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
             event.accept(ModItems.CHOCOLATE_ARROW);
             event.accept(ModItems.CHOCOLATE_EGG);
+            event.accept(ModItems.APRON);
 
             // other blocks
             event.accept(ModBlocks.VANILLA_SCENTED_CANDLE);
@@ -388,6 +388,14 @@ public class NillaChocoMod
             specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 3), new ItemStack(ModItems.YOSHI_COOKIE.get(), 1), 10, 8, 0.0f));
             specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 64), new ItemStack(ModItems.VANILLA_SWORD.get(), 1), 10, 8, 0.0f));
             specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 64), new ItemStack(ModItems.CHOCOLATE_RAIN_BOW.get(), 1), 10, 8, 0.0f));
+
+        }
+
+        @SubscribeEvent
+        public static void itemColorsRegistryHandler(RegisterColorHandlersEvent.Item event) {
+            event.register((stack, color) -> color > 0 ? -1 :
+                    ((DyeableLeatherItem)stack.getItem()).getColor(stack),
+                    ModItems.APRON.get());
 
         }
 

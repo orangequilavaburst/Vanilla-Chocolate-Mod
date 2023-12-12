@@ -9,6 +9,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -137,6 +138,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> CHOCOLATE_EGG = ITEMS.register("chocolate_egg",
             () -> new ChocolateEggItem(new Item.Properties().stacksTo(16)));
+
+    public static final RegistryObject<Item> APRON = ITEMS.register("apron",
+            () -> new ApronItem(new Item.Properties()));
 
     public static void register(IEventBus eb){
 
