@@ -77,7 +77,16 @@ public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
 
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot slot, HumanoidModel<?> original) {
-                return new ApronModel<>();
+                if (slot == EquipmentSlot.CHEST){
+                    if (itemStack.getItem() instanceof ApronItem){
+                        int color = getColor(itemStack);
+                        float r = (float)((color>>16)&0xFF) / 255.0f;
+                        float g = (float)((color>>8)&0xFF) / 255.0f;
+                        float b = (float)((color)&0xFF) / 255.0f;
+                        return new ApronModel<>(r, g, b);
+                    }
+                }
+                return original;
             }
 
             @Override
@@ -94,12 +103,13 @@ public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
             @SuppressWarnings("unchecked")
             public static <T extends LivingEntity> void setModelProperties(HumanoidModel<?> replacement, HumanoidModel<T> original, EquipmentSlot slot){
                 original.copyPropertiesTo((HumanoidModel<T>) replacement);
-                //replacement.head.visible = true;
-                replacement.body.visible = true;
-                //replacement.rightArm.visible = true;
-                //replacement.leftArm.visible = true;
-                //replacement.rightLeg.visible = true;
-                //replacement.leftLeg.visible = true;
+                replacement.head.visible = slot == EquipmentSlot.HEAD;
+                replacement.hat.visible = slot == EquipmentSlot.HEAD;
+                replacement.body.visible = slot == EquipmentSlot.CHEST || slot == EquipmentSlot.LEGS;
+                replacement.rightArm.visible = slot == EquipmentSlot.CHEST;
+                replacement.leftArm.visible = slot == EquipmentSlot.CHEST;
+                replacement.rightLeg.visible = slot == EquipmentSlot.LEGS || slot == EquipmentSlot.FEET;
+                replacement.leftLeg.visible = slot == EquipmentSlot.LEGS || slot == EquipmentSlot.FEET;
             }
         });
     }
@@ -111,8 +121,8 @@ public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
 
     @Override
     public int getColor(ItemStack pStack) {
-        CompoundTag compoundtag = pStack.getTagElement("display");
-        return compoundtag != null && compoundtag.contains("color", 99)  ? compoundtag.getInt("color") : 16777215;
+        CompoundTag compoundtag = pStack.getTagElement(TAG_DISPLAY);
+        return compoundtag != null && compoundtag.contains(TAG_COLOR, 99)  ? compoundtag.getInt(TAG_COLOR) : 16777215;
     }
 
 }
