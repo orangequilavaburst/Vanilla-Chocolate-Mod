@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -13,7 +12,6 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
@@ -49,6 +47,7 @@ import xyz.j8bit_forager.nillachoco.particle.ModParticles;
 import xyz.j8bit_forager.nillachoco.particle.custom.RainIndicatorParticle;
 import xyz.j8bit_forager.nillachoco.potion.ModPotions;
 import xyz.j8bit_forager.nillachoco.sound.ModSounds;
+import xyz.j8bit_forager.nillachoco.item.ItemUtils;
 
 import java.util.Comparator;
 import java.util.List;
@@ -113,6 +112,8 @@ public class NillaChocoMod
         ComposterBlock.COMPOSTABLES.put(ModItems.VANILLA_CREAM_PIE.get(), 1.0f);
         ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.VANILLA_CAKE.get()), 1.0f);
         ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.CHOCOLATE_CAKE.get()), 1.0f);
+
+        ItemUtils.makeBow(ModItems.CHOCOLATE_RAIN_BOW.get());
 
     }
 
@@ -282,13 +283,13 @@ public class NillaChocoMod
         @SubscribeEvent
         public static void selectTarget(LivingChangeTargetEvent event){
 
-            Player instancePlayer = Minecraft.getInstance().player;
+            //Player instancePlayer = Minecraft.getInstance().player;
 
             LivingEntity mob = event.getEntity();
             LivingEntity originalTarget = event.getOriginalTarget();
             LivingEntity newTarget = event.getNewTarget();
 
-            if (instancePlayer != null && mob != null){
+            if (/*instancePlayer != null && */mob != null){
 
                 double targetRange = mob.getAttributes().getValue(Attributes.FOLLOW_RANGE);
                 AABB area = mob.getBoundingBox().inflate(targetRange);

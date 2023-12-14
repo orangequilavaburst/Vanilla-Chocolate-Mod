@@ -1,0 +1,6 @@
+{
+    "parent": "nillachoco:item/chocolate_rain_bow_gui",
+    "textures": {
+        "layer0": "nillachoco:item/chocolate_rain_bow_pulling_2"
+    }
+}
