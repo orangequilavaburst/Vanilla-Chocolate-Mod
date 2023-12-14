@@ -9,6 +9,28 @@
     "gui": {
       "parent": "nillachoco:item/chocolate_rain_bow_gui"
     }
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "pulling": 1
+      },
+      "model": "nillachoco:item/chocolate_rain_bow_pulling_0"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.65
+      },
+      "model": "nillachoco:item/chocolate_rain_bow_pulling_1"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.9
+      },
+      "model": "nillachoco:item/chocolate_rain_bow_pulling_2"
+    }
+  ]
 
 }

@@ -15,21 +15,9 @@ import xyz.j8bit_forager.nillachoco.NillaChocoMod;
 public class ApronModel<T extends LivingEntity> extends HumanoidModel<T> {
 
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(NillaChocoMod.MOD_ID, "apron_layer"), "main");
-    public float modelRed;
-    public float modelGreen;
-    public float modelBlue;
+
     public ApronModel() {
         super(createBodyLayer().bakeRoot());
-        modelRed = 1.0f;
-        modelGreen = 1.0f;
-        modelBlue = 1.0f;
-    }
-
-    public ApronModel(float r, float g, float b) {
-        super(createBodyLayer().bakeRoot());
-        modelRed = r;
-        modelGreen = g;
-        modelBlue = b;
     }
 
     public static LayerDefinition createBodyLayer(){
@@ -54,7 +42,7 @@ public class ApronModel<T extends LivingEntity> extends HumanoidModel<T> {
 
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         //NillaChocoMod.LOGGER.info("[" + Minecraft.getInstance().getFrameTime() + "] Colors of armor: " + red + ", " + green + ", " + blue);
-        body.render(poseStack, vertexConsumer, packedLight, packedOverlay, modelRed, modelGreen, modelBlue, alpha);
+        body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         //poseStack.scale(0.01f, 0.01f, 0.01f);
         //body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }

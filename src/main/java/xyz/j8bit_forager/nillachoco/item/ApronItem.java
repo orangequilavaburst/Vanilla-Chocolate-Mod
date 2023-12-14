@@ -75,15 +75,13 @@ public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
 
+            public static final HumanoidModel<?> MODEL = new ApronModel<>();
+
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot slot, HumanoidModel<?> original) {
                 if (slot == EquipmentSlot.CHEST){
                     if (itemStack.getItem() instanceof ApronItem){
-                        int color = getColor(itemStack);
-                        float r = (float)((color>>16)&0xFF) / 255.0f;
-                        float g = (float)((color>>8)&0xFF) / 255.0f;
-                        float b = (float)((color)&0xFF) / 255.0f;
-                        return new ApronModel<>(r, g, b);
+                        return MODEL;
                     }
                 }
                 return original;
@@ -116,6 +114,7 @@ public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
 
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+        if (type != null && type == "overlay") return NillaChocoMod.MOD_ID + ":textures/models/armor/apron_layer_overlay.png";
         return NillaChocoMod.MOD_ID + ":textures/models/armor/apron_layer.png";
     }
 
