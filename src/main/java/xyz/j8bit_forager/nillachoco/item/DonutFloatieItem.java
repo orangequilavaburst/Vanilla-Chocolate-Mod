@@ -14,6 +14,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
@@ -115,14 +116,8 @@ public class DonutFloatieItem extends ArmorItem {
 
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
-        if (!level.isClientSide()){
-            if (player.isInWater() && level.getBlockState(player.blockPosition().above()) != Blocks.AIR.defaultBlockState()){
-                if (player.getDeltaMovement().y < 10.0f){
-                    float accel = 1.0f;
-                    Vec3 vec = new Vec3(player.getDeltaMovement().x, Math.max(10.0f, player.getDeltaMovement().y + accel), player.getDeltaMovement().z);
-                    player.setDeltaMovement(vec);
-                }
-            }
+        if (player.isInWater() && level.getBlockState(player.blockPosition().above()) != Blocks.AIR.defaultBlockState()) {
+            player.addDeltaMovement(new Vec3(0, 0.1, 0));
         }
     }
 }
