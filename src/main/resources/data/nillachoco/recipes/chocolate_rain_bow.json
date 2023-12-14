@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N#",
+    "A #",
+    " N#"
+  ],
+  "key": {
+    "#": {
+      "item": "nillachoco:vanilla_bean"
+    },
+    "N": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "A": {
+      "item": "nillachoco:vanilla_orchid"
+    }
+  },
+  "result": {
+    "item": "nillachoco:chocolate_rain_bow",
+    "count": 1
+  }
+}

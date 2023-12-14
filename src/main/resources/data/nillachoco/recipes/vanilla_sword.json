@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#i#",
+    "#i#",
+    "NAN"
+  ],
+  "key": {
+    "#": {
+      "item": "nillachoco:vanilla_bean"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "N": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "A": {
+      "item": "nillachoco:vanilla_orchid"
+    }
+  },
+  "result": {
+    "item": "nillachoco:vanilla_sword",
+    "count": 1
+  }
+}
