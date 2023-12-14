@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "xyz.j8bit_forager.nillachoco.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "nillachoco.refmap.json",
+  "mixins": [
+    "LivingEntityMixin"
+  ]
+}
