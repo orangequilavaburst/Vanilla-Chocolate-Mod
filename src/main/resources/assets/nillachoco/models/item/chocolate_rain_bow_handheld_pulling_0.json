@@ -1,5 +1,5 @@
 {
-    "parent": "nillachoco:item/chocolate_rain_bow",
+    "parent": "nillachoco:item/chocolate_rain_bow_handheld",
     "textures": {
         "layer0": "nillachoco:item/chocolate_rain_bow_handheld_pulling_0"
     }

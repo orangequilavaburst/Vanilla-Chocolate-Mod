@@ -1,5 +1,4 @@
 {
-
   "loader":"forge:separate_transforms",
   "gui_light": "front",
   "base": {
@@ -10,5 +9,4 @@
       "parent": "nillachoco:item/chocolate_rain_bow_gui_pulling_2"
     }
   }
-
 }
