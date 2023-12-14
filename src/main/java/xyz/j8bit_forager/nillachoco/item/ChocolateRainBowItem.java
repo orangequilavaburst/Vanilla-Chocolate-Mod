@@ -3,7 +3,6 @@ package xyz.j8bit_forager.nillachoco.item;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -173,7 +172,7 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
                                 int height = 0;
 
-                                while (pLevel.getBlockState(BlockPos.containing(ray.getLocation().add(0, height, 0))).isAir() && height < this.maxHeight - 1){
+                                while (!pLevel.getBlockState(BlockPos.containing(ray.getLocation().add(0, height, 0))).blocksMotion() && height < this.maxHeight - 1){
                                     /*pLevel.getServer().sendSystemMessage(Component.literal("Height is ")
                                             .append(Component.literal(Integer.toString(height)))
                                             .append(Component.literal(", Block is "))
