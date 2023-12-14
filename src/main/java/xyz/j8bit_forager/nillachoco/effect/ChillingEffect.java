@@ -1,13 +1,14 @@
 package xyz.j8bit_forager.nillachoco.effect;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -17,7 +18,6 @@ import xyz.j8bit_forager.nillachoco.block.ModBlocks;
 import xyz.j8bit_forager.nillachoco.entity.ModEntityTypes;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ChillingEffect extends MobEffect {
     protected ChillingEffect(MobEffectCategory pCategory, int pColor) {
@@ -25,8 +25,11 @@ public class ChillingEffect extends MobEffect {
     }
 
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
-
         Level world = pLivingEntity.level();
+
+        if (pLivingEntity.getEffect(this).endsWithin(1) && pLivingEntity instanceof Skeleton skeleton) {
+            skeleton.convertTo(EntityType.STRAY, true);
+        }
 
         if (pLivingEntity.getActiveEffects().stream().anyMatch((mobEffectInstance -> mobEffectInstance.getEffect() == ModEffects.WARMTH_EFFECT.get()))){
             for (MobEffectInstance me : pLivingEntity.getActiveEffects().stream().toList()){
@@ -34,15 +37,13 @@ public class ChillingEffect extends MobEffect {
                     pLivingEntity.getActiveEffects().remove(me);
                 }
             }
-        }
-        else {
-
+        } else {
             List<BlockPos> blocks = BlockPos.betweenClosedStream(
                             pLivingEntity.getBoundingBox().inflate(2.0 + pAmplifier))
                     .filter((bs) -> world.getBlockState(bs).getTags().toList().contains(ModBlocks.Tags.DESTROYED_BY_CHILLING)
                             || world.getBlockState(bs).is(Blocks.LAVA) || world.getBlockState(bs).is(Blocks.WATER))
                     .map(BlockPos::immutable)
-                    .collect(Collectors.toList());
+                    .toList();
             if (blocks.size() > 0) {
                 for (BlockPos bp : blocks) {
                     if (world.getBlockState(bp) == Blocks.LAVA.defaultBlockState()) {
@@ -67,19 +68,14 @@ public class ChillingEffect extends MobEffect {
 
 
             if (pLivingEntity instanceof Player p) {
-
-                String s = world.getBiome(p.blockPosition()).get().toString();
+                // String s = world.getBiome(p.blockPosition()).get().toString();
                 if (world.getBiome(pLivingEntity.blockPosition()).get().getBaseTemperature() <= 0.33 ||
                         world.getBiome(pLivingEntity.blockPosition()).equals(BiomeManager.BiomeType.ICY)) {
                     p.displayClientMessage(Component.translatable(this.getDescriptionId() + ".warning_text"), true);
                     pLivingEntity.setTicksFrozen(Math.min(pLivingEntity.getTicksFrozen() + 5, pLivingEntity.getTicksRequiredToFreeze() + 5));
                 }
-
             }
-
         }
-
-
     }
 
     @Override
