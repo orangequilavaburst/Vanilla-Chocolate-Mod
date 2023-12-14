@@ -142,6 +142,9 @@ public class ModItems {
     public static final RegistryObject<Item> APRON = ITEMS.register("apron",
             () -> new ApronItem(new Item.Properties()));
 
+    public static final RegistryObject<Item> DONUT_FLOATIE = ITEMS.register("donut_floatie",
+            () -> new DonutFloatieItem(new Item.Properties()));
+
     public static void register(IEventBus eb){
 
         ITEMS.register(eb);

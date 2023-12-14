@@ -9,28 +9,33 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.j8bit_forager.nillachoco.NillaChocoMod;
 import xyz.j8bit_forager.nillachoco.entity.model.ApronModel;
+import xyz.j8bit_forager.nillachoco.entity.model.DonutFloatieModel;
 
 import java.util.function.Consumer;
 
-public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
+public class DonutFloatieItem extends ArmorItem {
 
-    public static ArmorMaterial APRON = new ArmorMaterial() {
+    public static ArmorMaterial DONUT = new ArmorMaterial() {
 
         @Override
         public int getDurabilityForType(Type ArmorType) {
-            return 100;
+            return 200;
         }
 
         @Override
         public int getDefenseForType(Type ArmorType) {
-            return 1;
+            return 2;
         }
 
         @Override
@@ -45,12 +50,12 @@ public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
 
         @Override
         public Ingredient getRepairIngredient() {
-            return Ingredient.of(ItemTags.WOOL);
+            return Ingredient.of(Items.SLIME_BALL);
         }
 
         @Override
         public String getName() {
-            return "apron";
+            return "donut_floatie";
         }
 
         @Override
@@ -60,27 +65,24 @@ public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
 
         @Override
         public float getKnockbackResistance() {
-            return 0;
+            return 1;
         }
     };
 
-    String TAG_COLOR = "color";
-    String TAG_DISPLAY = "display";
-
-    public ApronItem(Properties properties) {
-        super(APRON, Type.CHESTPLATE, properties);
+    public DonutFloatieItem(Properties properties) {
+        super(DONUT, Type.LEGGINGS, properties);
     }
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
 
-            public static final HumanoidModel<?> MODEL = new ApronModel<>();
+            public static final HumanoidModel<?> MODEL = new DonutFloatieModel<>();
 
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot slot, HumanoidModel<?> original) {
-                if (slot == EquipmentSlot.CHEST){
-                    if (itemStack.getItem() instanceof ApronItem){
+                if (slot == EquipmentSlot.LEGS){
+                    if (itemStack.getItem() instanceof DonutFloatieItem){
                         return MODEL;
                     }
                 }
@@ -108,14 +110,19 @@ public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
 
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        if (type != null && type == "overlay") return NillaChocoMod.MOD_ID + ":textures/models/armor/apron_layer_overlay.png";
-        return NillaChocoMod.MOD_ID + ":textures/models/armor/apron_layer.png";
+        return NillaChocoMod.MOD_ID + ":textures/models/armor/donut_floatie_layer.png";
     }
 
     @Override
-    public int getColor(ItemStack pStack) {
-        CompoundTag compoundtag = pStack.getTagElement(TAG_DISPLAY);
-        return compoundtag != null && compoundtag.contains(TAG_COLOR, 99)  ? compoundtag.getInt(TAG_COLOR) : 16777215;
+    public void onArmorTick(ItemStack stack, Level level, Player player) {
+        if (!level.isClientSide()){
+            if (player.isInWater() && level.getBlockState(player.blockPosition().above()) != Blocks.AIR.defaultBlockState()){
+                if (player.getDeltaMovement().y < 10.0f){
+                    float accel = 1.0f;
+                    Vec3 vec = new Vec3(player.getDeltaMovement().x, Math.max(10.0f, player.getDeltaMovement().y + accel), player.getDeltaMovement().z);
+                    player.setDeltaMovement(vec);
+                }
+            }
+        }
     }
-
 }

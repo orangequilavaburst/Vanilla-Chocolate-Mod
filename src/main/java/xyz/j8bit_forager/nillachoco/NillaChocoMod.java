@@ -178,6 +178,7 @@ public class NillaChocoMod
             event.accept(ModItems.CHOCOLATE_ARROW);
             event.accept(ModItems.CHOCOLATE_EGG);
             event.accept(ModItems.APRON);
+            event.accept(ModItems.DONUT_FLOATIE);
 
         }
         if (event.getTabKey() == ModItemGroups.VANILLA_CHOCOLATE_TAB.getKey()){
@@ -228,6 +229,9 @@ public class NillaChocoMod
             event.accept(ModItems.CHOCOLATE_ARROW);
             event.accept(ModItems.CHOCOLATE_EGG);
             event.accept(ModItems.APRON);
+
+            // donut floaties
+            event.accept(ModItems.DONUT_FLOATIE);
 
             // other blocks
             event.accept(ModBlocks.VANILLA_SCENTED_CANDLE);
