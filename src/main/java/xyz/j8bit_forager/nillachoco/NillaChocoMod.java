@@ -5,24 +5,23 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
@@ -40,6 +39,7 @@ import xyz.j8bit_forager.nillachoco.client.renderer.entity.VanillaProjectileRend
 import xyz.j8bit_forager.nillachoco.effect.ModEffects;
 import xyz.j8bit_forager.nillachoco.entity.ModEntityTypes;
 import xyz.j8bit_forager.nillachoco.item.ApronItem;
+import xyz.j8bit_forager.nillachoco.item.ItemUtils;
 import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
 import xyz.j8bit_forager.nillachoco.item.ModItems;
 import xyz.j8bit_forager.nillachoco.loot.ModLootModifiers;
@@ -47,9 +47,7 @@ import xyz.j8bit_forager.nillachoco.particle.ModParticles;
 import xyz.j8bit_forager.nillachoco.particle.custom.RainIndicatorParticle;
 import xyz.j8bit_forager.nillachoco.potion.ModPotions;
 import xyz.j8bit_forager.nillachoco.sound.ModSounds;
-import xyz.j8bit_forager.nillachoco.item.ItemUtils;
 
-import java.util.Comparator;
 import java.util.List;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -282,68 +280,7 @@ public class NillaChocoMod
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID)
-    public static class ModEvents{
-
-        @SubscribeEvent
-        public static void selectTarget(LivingChangeTargetEvent event){
-
-            //Player instancePlayer = Minecraft.getInstance().player;
-
-            LivingEntity mob = event.getEntity();
-            LivingEntity originalTarget = event.getOriginalTarget();
-            LivingEntity newTarget = event.getNewTarget();
-
-            if (/*instancePlayer != null && */mob != null){
-
-                double targetRange = mob.getAttributes().getValue(Attributes.FOLLOW_RANGE);
-                AABB area = mob.getBoundingBox().inflate(targetRange);
-                List<LivingEntity> animosityList = mob.level().getEntitiesOfClass(LivingEntity.class, area).stream()
-                        .filter(entry -> entry != mob)
-                        //.filter(entry -> entry.hasLineOfSight(mob))
-                        .filter(LivingEntity::canBeSeenAsEnemy)
-                        .filter(entry -> entry.position().distanceTo(mob.position()) <= targetRange*2)
-                        .filter(entity -> !((entity instanceof Player player) && player.isCreative()) )
-                        .filter(entry -> entry.hasEffect(ModEffects.ANIMOSITY_EFFECT.get()))
-                        .sorted(Comparator.comparing(entry -> entry.position().distanceTo(mob.position())))
-                        .toList();
-                List<LivingEntity> calmingList = mob.level().getEntitiesOfClass(LivingEntity.class, area).stream()
-                        .filter(entry -> entry != mob)
-                        //.filter(entry -> entry.hasLineOfSight(mob))
-                        .filter(LivingEntity::canBeSeenAsEnemy)
-                        .filter(entry -> entry.position().distanceTo(mob.position()) > targetRange/2 && entry.position().distanceTo(mob.position()) <= targetRange)
-                        .filter(entity -> !((entity instanceof Player player) && player.isCreative()) )
-                        .filter(entry -> entry.hasEffect(ModEffects.CALMING_EFFECT.get()))
-                        .sorted(Comparator.comparing(entry -> entry.position().distanceTo(mob.position())))
-                        .toList();
-
-                if (animosityList.size() > 0){
-                    LivingEntity closestAnimosity = animosityList.get(0);
-                    event.setNewTarget(closestAnimosity);
-                }
-
-                if (calmingList.size() > 0){
-                    LivingEntity closestCalming = calmingList.get(0);
-                    if (newTarget == closestCalming){
-                        event.setCanceled(true);
-                    }
-                }
-
-                /*
-
-                instancePlayer.displayClientMessage(
-                        Component.literal("Entity ")
-                                .append(mob.getDisplayName())
-                                .append(Component.literal("'s target changed from "))
-                                .append((originalTarget != null) ? originalTarget.getDisplayName() : Component.literal("nothing"))
-                                .append(Component.literal(" to "))
-                                .append((newTarget != null) ? newTarget.getDisplayName() : Component.literal("nothing"))
-                        , false);
-                 */
-
-            }
-
-        }
-
+    public static class ModEvents {
         @SubscribeEvent
         public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event){
 
