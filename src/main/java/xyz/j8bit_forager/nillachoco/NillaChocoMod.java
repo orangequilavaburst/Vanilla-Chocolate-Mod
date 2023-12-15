@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -23,6 +25,7 @@ import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
@@ -38,16 +41,14 @@ import xyz.j8bit_forager.nillachoco.client.renderer.entity.ChocolateArrowRendere
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.VanillaProjectileRenderer;
 import xyz.j8bit_forager.nillachoco.effect.ModEffects;
 import xyz.j8bit_forager.nillachoco.entity.ModEntityTypes;
-import xyz.j8bit_forager.nillachoco.item.ApronItem;
-import xyz.j8bit_forager.nillachoco.item.ItemUtils;
-import xyz.j8bit_forager.nillachoco.item.ModItemGroups;
-import xyz.j8bit_forager.nillachoco.item.ModItems;
+import xyz.j8bit_forager.nillachoco.item.*;
 import xyz.j8bit_forager.nillachoco.loot.ModLootModifiers;
 import xyz.j8bit_forager.nillachoco.particle.ModParticles;
 import xyz.j8bit_forager.nillachoco.particle.custom.RainIndicatorParticle;
 import xyz.j8bit_forager.nillachoco.potion.ModPotions;
 import xyz.j8bit_forager.nillachoco.sound.ModSounds;
 
+import java.util.Iterator;
 import java.util.List;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -176,7 +177,9 @@ public class NillaChocoMod
             event.accept(ModItems.CHOCOLATE_ARROW);
             event.accept(ModItems.CHOCOLATE_EGG);
             event.accept(ModItems.APRON);
-            event.accept(ModItems.DONUT_FLOATIE);
+
+            event.accept(ModItems.PLAIN_DONUT_FLOATIE);
+            event.accept(ModItems.GLAZED_DONUT_FLOATIE);
 
         }
         if (event.getTabKey() == ModItemGroups.VANILLA_CHOCOLATE_TAB.getKey()){
@@ -229,7 +232,8 @@ public class NillaChocoMod
             event.accept(ModItems.APRON);
 
             // donut floaties
-            event.accept(ModItems.DONUT_FLOATIE);
+            event.accept(ModItems.PLAIN_DONUT_FLOATIE);
+            event.accept(ModItems.GLAZED_DONUT_FLOATIE);
 
             // other blocks
             event.accept(ModBlocks.VANILLA_SCENTED_CANDLE);
@@ -292,6 +296,30 @@ public class NillaChocoMod
                 }
             }
 
+        }
+
+        @SubscribeEvent
+        public static void onEntityGetHit(LivingHurtEvent event){
+            if (event.getEntity() instanceof LivingEntity) {
+                Iterator<ItemStack> armorIt = event.getEntity().getArmorSlots().iterator();
+                boolean hasFloatie = false;
+                while (armorIt.hasNext()){
+                    if (armorIt.next().getItem() instanceof DonutFloatieItem){
+                        hasFloatie = true;
+                    }
+                }
+                if (hasFloatie) {
+                    if (event.getSource().getEntity() != null) {
+                        if (event.getSource().getEntity() instanceof LivingEntity) {
+                            LivingEntity target = (LivingEntity) event.getSource().getEntity();
+                            Vec3 bounceVec = target.position().subtract(event.getEntity().position());
+                            bounceVec = bounceVec.normalize().scale(0.25);
+                            bounceVec = new Vec3(bounceVec.x, Math.max(1, bounceVec.y * 0.5), bounceVec.z);
+                            target.setDeltaMovement(bounceVec);
+                        }
+                    }
+                }
+            }
         }
 
         @SubscribeEvent

@@ -142,7 +142,9 @@ public class ModItems {
     public static final RegistryObject<Item> APRON = ITEMS.register("apron",
             () -> new ApronItem(new Item.Properties()));
 
-    public static final RegistryObject<Item> DONUT_FLOATIE = ITEMS.register("donut_floatie",
+    public static final RegistryObject<Item> PLAIN_DONUT_FLOATIE = ITEMS.register("plain_donut_floatie",
+            () -> new DyeableDonutFloatieItem(new Item.Properties()));
+    public static final RegistryObject<Item> GLAZED_DONUT_FLOATIE = ITEMS.register("glazed_donut_floatie",
             () -> new DonutFloatieItem(new Item.Properties()));
 
     public static void register(IEventBus eb){

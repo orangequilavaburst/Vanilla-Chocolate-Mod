@@ -40,7 +40,6 @@ public class DonutItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         // I'd know what to do here after the constructor's done
         if (!pStack.getFoodProperties(null).getEffects().isEmpty()) {
             List<MobEffectInstance> mobEffects = new ArrayList<MobEffectInstance>();
@@ -49,6 +48,8 @@ public class DonutItem extends Item {
             }
             PotionUtils.addPotionTooltip(mobEffects, pTooltipComponents, 1.0f);
         }
+
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
 }

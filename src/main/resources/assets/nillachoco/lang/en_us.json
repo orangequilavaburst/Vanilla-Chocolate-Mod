@@ -27,7 +27,11 @@
   "item.nillachoco.chocolate_egg": "Chocolate Egg",
   "item.nillachoco.vanilla_sword": "Vanilla Sword (Name WIP)",
   "item.nillachoco.apron": "Apron",
-  "item.nillachoco.donut_floatie": "Donut Floatie",
+
+  "item.nillachoco.plain_donut_floatie": "Donut Floatie",
+  "item.nillachoco.plain_donut_floatie_tooltip": "Plain",
+  "item.nillachoco.glazed_donut_floatie": "Donut Floatie",
+  "item.nillachoco.glazed_donut_floatie_tooltip": "Glazed",
 
   "block.nillachoco.vanilla_plant": "Vanilla Plant",
   "block.nillachoco.vanilla_orchid": "Vanilla Orchid",
