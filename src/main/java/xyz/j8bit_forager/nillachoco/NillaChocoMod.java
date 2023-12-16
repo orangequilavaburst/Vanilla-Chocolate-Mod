@@ -2,9 +2,12 @@ package xyz.j8bit_forager.nillachoco;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
@@ -22,6 +25,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -55,6 +59,8 @@ import java.util.List;
 @Mod(NillaChocoMod.MOD_ID)
 public class NillaChocoMod
 {
+    public static HumanoidModel.ArmPose FLOATIE_ON;
+
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "nillachoco";
     // Directly reference a slf4j logger
@@ -254,11 +260,15 @@ public class NillaChocoMod
     public static class ClientModEvents
     {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-
+        public static void onClientSetup(FMLClientSetupEvent event) {
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.VANILLA_PLANT.get(), RenderType.cutout());
 
+            event.enqueueWork(() -> {
+                FLOATIE_ON = HumanoidModel.ArmPose.create("floatie_on", true, (model, entity, arm) -> {
+                    model.leftArm.zRot = Mth.DEG_TO_RAD * -20;
+                    model.rightArm.zRot = Mth.DEG_TO_RAD * 20;
+                });
+            });
         }
 
         @SubscribeEvent
@@ -279,15 +289,29 @@ public class NillaChocoMod
                             ((ApronItem)stack.getItem()).getColor(stack),
                     ModItems.APRON.get());
 
+            event.register((stack, color) -> color > 0 ? -1 : ((DyeableDonutFloatieItem) stack.getItem()).getColor(stack), ModItems.PLAIN_DONUT_FLOATIE.get());
         }
 
+    }
+
+    @Mod.EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
+    public static class ClientEvents {
+        @SubscribeEvent
+        public static void floatieArmPose(RenderLivingEvent.Pre event) {
+            LivingEntity entity = event.getEntity();
+            if (event.getRenderer().getModel() instanceof HumanoidModel<?> model && entity.getItemBySlot(EquipmentSlot.LEGS).getItem() instanceof DonutFloatieItem) {
+                if (model.leftArmPose == HumanoidModel.ArmPose.EMPTY || model.leftArmPose == HumanoidModel.ArmPose.ITEM)
+                    model.leftArmPose = FLOATIE_ON;
+                if (model.rightArmPose == HumanoidModel.ArmPose.EMPTY || model.rightArmPose == HumanoidModel.ArmPose.ITEM)
+                    model.rightArmPose = FLOATIE_ON;
+            }
+        }
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID)
     public static class ModEvents {
         @SubscribeEvent
-        public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event){
-
+        public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
             if (event.getEntity() instanceof Player player) {
                 ItemStack itemStack = event.getItem();
                 if (itemStack.is(ModItems.YOSHI_COOKIE.get())) {
