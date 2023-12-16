@@ -3,11 +3,11 @@
   "loader":"forge:separate_transforms",
   "gui_light": "front",
   "base": {
-    "parent": "nillachoco:item/vanilla_sword_handheld"
+    "parent": "nillachoco:item/vainabrand_handheld"
   },
   "perspectives": {
     "gui": {
-      "parent": "nillachoco:item/vanilla_sword_gui"
+      "parent": "nillachoco:item/vainabrand_gui"
     }
   }
 

@@ -13,10 +13,10 @@ import xyz.j8bit_forager.nillachoco.entity.custom.VanillaProjectileEntity;
 
 public class VanillaSwordItem extends SwordItem {
 
-    private static final ForgeTier VANILLA_TIER = new ForgeTier(4, 3000, 8.0f, 5.0f, 5, BlockTags.NEEDS_DIAMOND_TOOL, () -> Ingredient.EMPTY);
+    private static final ForgeTier VANILLA_TIER = new ForgeTier(4, 3000, 8.0f, 5.0f, 5, BlockTags.NEEDS_DIAMOND_TOOL, () -> Ingredient.of(Items.NETHERITE_INGOT));
 
     public VanillaSwordItem(Properties pProperties) {
-        super(VANILLA_TIER, 4, -3.5f, pProperties);
+        super(VANILLA_TIER, 4, -2.0f, pProperties);
     }
 
     @Override

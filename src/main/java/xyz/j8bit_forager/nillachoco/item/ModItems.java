@@ -128,10 +128,10 @@ public class ModItems {
                     )));
 
     public static final RegistryObject<Item> CHOCOLATE_RAIN_BOW = ITEMS.register("chocolate_rain_bow",
-            () -> new ChocolateRainBowItem(new Item.Properties().rarity(Rarity.RARE)));
+            () -> new ChocolateRainBowItem(new Item.Properties().rarity(Rarity.UNCOMMON).defaultDurability(3000)));
 
-    public static final RegistryObject<Item> VANILLA_SWORD = ITEMS.register("vanilla_sword",
-            () -> new VanillaSwordItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> VAINABRAND = ITEMS.register("vainabrand",
+            () -> new VanillaSwordItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> CHOCOLATE_ARROW = ITEMS.register("chocolate_arrow",
             () -> new ChocolateArrowItem(new Item.Properties()));
@@ -145,6 +145,24 @@ public class ModItems {
     public static final RegistryObject<Item> PLAIN_DONUT_FLOATIE = ITEMS.register("plain_donut_floatie",
             () -> new DyeableDonutFloatieItem(new Item.Properties()));
     public static final RegistryObject<Item> GLAZED_DONUT_FLOATIE = ITEMS.register("glazed_donut_floatie",
+            () -> new DonutFloatieItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> VANILLA_FROSTED_DONUT_FLOATIE = ITEMS.register("vanilla_frosted_donut_floatie",
+            () -> new DyeableDonutFloatieItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> CHOCOLATE_FROSTED_DONUT_FLOATIE = ITEMS.register("chocolate_frosted_donut_floatie",
+            () -> new DonutFloatieItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> SPRINKLE_DONUT_FLOATIE = ITEMS.register("sprinkle_donut_floatie",
+            () -> new DonutFloatieItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> HONEY_DONUT_FLOATIE = ITEMS.register("honey_donut_floatie",
+            () -> new DonutFloatieItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> SLIME_DONUT_FLOATIE = ITEMS.register("slime_donut_floatie",
+            () -> new DonutFloatieItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> SPIDER_DONUT_FLOATIE = ITEMS.register("spider_donut_floatie",
             () -> new DonutFloatieItem(new Item.Properties()));
 
     public static void register(IEventBus eb){

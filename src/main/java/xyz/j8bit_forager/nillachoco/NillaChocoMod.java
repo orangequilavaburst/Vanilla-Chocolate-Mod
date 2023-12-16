@@ -181,7 +181,7 @@ public class NillaChocoMod
         }
         if (event.getTabKey() == CreativeModeTabs.COMBAT){
 
-            event.accept(ModItems.VANILLA_SWORD);
+            event.accept(ModItems.VAINABRAND);
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
             event.accept(ModItems.CHOCOLATE_ARROW);
             event.accept(ModItems.CHOCOLATE_EGG);
@@ -189,6 +189,12 @@ public class NillaChocoMod
 
             event.accept(ModItems.PLAIN_DONUT_FLOATIE);
             event.accept(ModItems.GLAZED_DONUT_FLOATIE);
+            event.accept(ModItems.VANILLA_FROSTED_DONUT_FLOATIE);
+            event.accept(ModItems.CHOCOLATE_FROSTED_DONUT_FLOATIE);
+            event.accept(ModItems.SPRINKLE_DONUT_FLOATIE);
+            event.accept(ModItems.HONEY_DONUT_FLOATIE);
+            event.accept(ModItems.SLIME_DONUT_FLOATIE);
+            event.accept(ModItems.SPIDER_DONUT_FLOATIE);
 
         }
         if (event.getTabKey() == ModItemGroups.VANILLA_CHOCOLATE_TAB.getKey()){
@@ -234,7 +240,7 @@ public class NillaChocoMod
             event.accept(ModBlocks.CHOCOLATE_CAKE);
 
             // weapons
-            event.accept(ModItems.VANILLA_SWORD);
+            event.accept(ModItems.VAINABRAND);
             event.accept(ModItems.CHOCOLATE_RAIN_BOW);
             event.accept(ModItems.CHOCOLATE_ARROW);
             event.accept(ModItems.CHOCOLATE_EGG);
@@ -243,6 +249,12 @@ public class NillaChocoMod
             // donut floaties
             event.accept(ModItems.PLAIN_DONUT_FLOATIE);
             event.accept(ModItems.GLAZED_DONUT_FLOATIE);
+            event.accept(ModItems.VANILLA_FROSTED_DONUT_FLOATIE);
+            event.accept(ModItems.CHOCOLATE_FROSTED_DONUT_FLOATIE);
+            event.accept(ModItems.SPRINKLE_DONUT_FLOATIE);
+            event.accept(ModItems.HONEY_DONUT_FLOATIE);
+            event.accept(ModItems.SLIME_DONUT_FLOATIE);
+            event.accept(ModItems.SPIDER_DONUT_FLOATIE);
 
             // other blocks
             event.accept(ModBlocks.VANILLA_SCENTED_CANDLE);
@@ -367,7 +379,7 @@ public class NillaChocoMod
 
             if (event.getType() == VillagerProfession.WEAPONSMITH) {
 
-                masterTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, rand.nextInt(48, 64)), new ItemStack(ModItems.CHOCOLATE_BAR.get(), rand.nextInt(48, 64)), new ItemStack(ModItems.VANILLA_SWORD.get(), 1), 1, 8, 0.02f));
+                masterTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, rand.nextInt(48, 64)), new ItemStack(ModItems.CHOCOLATE_BAR.get(), rand.nextInt(48, 64)), new ItemStack(ModItems.VAINABRAND.get(), 1), 1, 8, 0.02f));
 
             }
             if (event.getType() == VillagerProfession.FLETCHER){
@@ -399,7 +411,7 @@ public class NillaChocoMod
             trades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 1), new ItemStack(ModItems.VANILLA_BEAN.get(), 1), 10, 8, 0.0f));
             trades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 2), new ItemStack(ModItems.RAW_DONUT_RING.get(), 1), 10, 8, 0.0f));
             specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 3), new ItemStack(ModItems.YOSHI_COOKIE.get(), 1), 10, 8, 0.0f));
-            specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 64), new ItemStack(ModItems.VANILLA_SWORD.get(), 1), 10, 8, 0.0f));
+            specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 64), new ItemStack(ModItems.VAINABRAND.get(), 1), 10, 8, 0.0f));
             specialTrades.add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 64), new ItemStack(ModItems.CHOCOLATE_RAIN_BOW.get(), 1), 10, 8, 0.0f));
 
         }

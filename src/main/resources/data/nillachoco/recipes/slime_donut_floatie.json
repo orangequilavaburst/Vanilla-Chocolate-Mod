@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " # ",
+    "#d#",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:slimeball"
+    },
+    "d": {
+      "item": "nillachoco:slime_donut"
+    }
+  },
+  "result": {
+    "item": "nillachoco:slime_donut_floatie",
+    "count": 1
+  }
+}
