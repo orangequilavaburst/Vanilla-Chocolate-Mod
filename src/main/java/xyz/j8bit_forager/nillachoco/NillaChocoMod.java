@@ -41,6 +41,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import xyz.j8bit_forager.nillachoco.block.ModBlocks;
+import xyz.j8bit_forager.nillachoco.block.entity.ModBlockEntities;
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.ChocolateArrowRenderer;
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.VanillaProjectileRenderer;
 import xyz.j8bit_forager.nillachoco.effect.ModEffects;
@@ -60,6 +61,7 @@ import java.util.List;
 public class NillaChocoMod
 {
     public static HumanoidModel.ArmPose FLOATIE_ON;
+    public static HumanoidModel.ArmPose CHOCOLATE_RAIN_BOW_CHARGE;
 
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "nillachoco";
@@ -74,6 +76,7 @@ public class NillaChocoMod
         ModItemGroups.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
         ModEffects.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         ModParticles.register(modEventBus);
@@ -268,6 +271,13 @@ public class NillaChocoMod
                     model.leftArm.zRot = Mth.DEG_TO_RAD * -20;
                     model.rightArm.zRot = Mth.DEG_TO_RAD * 20;
                 });
+
+                /*CHOCOLATE_RAIN_BOW_CHARGE = HumanoidModel.ArmPose.create("chocolate_rain_bow_charge", true, (model, entity, arm) -> {
+                    model.rightArm.yRot = -0.1F + model.head.yRot;
+                    model.leftArm.yRot = 0.1F + model.head.yRot + 0.4F;
+                    model.rightArm.xRot = (-(float)Math.PI / 2F) + Mth.DEG_TO_RAD * -90;
+                    model.leftArm.xRot = (-(float)Math.PI / 2F) + Mth.DEG_TO_RAD * -90;
+                });*/
             });
         }
 

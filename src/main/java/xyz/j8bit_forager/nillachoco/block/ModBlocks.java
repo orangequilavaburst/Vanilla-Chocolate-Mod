@@ -63,10 +63,10 @@ public class ModBlocks {
             () -> new FlowerBlock(MobEffects.LUCK, 1, BlockBehaviour.Properties.copy(Blocks.DANDELION)));
 
     public static final RegistryObject<Block> POTTED_VANILLA_ORCHID = BLOCKS.register("potted_vanilla_orchid",
-            () -> new FlowerPotBlock(() ->  (FlowerPotBlock) Blocks.FLOWER_POT, ModBlocks.VANILLA_ORCHID, BlockBehaviour.Properties.copy(Blocks.POTTED_DANDELION)));
+            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, ModBlocks.VANILLA_ORCHID, BlockBehaviour.Properties.copy(Blocks.POTTED_DANDELION)));
 
     public static final RegistryObject<Block> VANILLA_SCENTED_CANDLE = registerBlock("vanilla_scented_candle",
-            () -> new CandleBlock(BlockBehaviour.Properties.copy(Blocks.CANDLE)));
+            () -> new VanillaScentCandleBlock(BlockBehaviour.Properties.copy(Blocks.CANDLE)));
 
     private static <T extends Block>RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block){
 
