@@ -308,12 +308,13 @@ public class NillaChocoMod
         @SubscribeEvent
         public static void itemColorsRegistryHandler(RegisterColorHandlersEvent.Item event) {
             event.register((stack, color) -> color > 0 ? -1 :
-                            ((ApronItem)stack.getItem()).getColor(stack),
+                            ((ApronItem) stack.getItem()).getColor(stack),
                     ModItems.APRON.get());
 
-            event.register((stack, color) -> color > 0 ? -1 : ((DyeableDonutFloatieItem) stack.getItem()).getColor(stack), ModItems.PLAIN_DONUT_FLOATIE.get());
+            event.register((stack, color) -> color > 0 ? -1 : ((DyeableDonutFloatieItem) stack.getItem()).getColor(stack),
+                    ModItems.PLAIN_DONUT_FLOATIE.get(),
+                    ModItems.VANILLA_FROSTED_DONUT_FLOATIE.get());
         }
-
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
