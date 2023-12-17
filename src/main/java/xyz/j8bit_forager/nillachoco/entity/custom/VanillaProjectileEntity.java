@@ -12,7 +12,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
@@ -33,23 +32,23 @@ public class VanillaProjectileEntity extends Projectile {
     private final int rotateDirection;
     private Random random = new Random();
 
-    public VanillaProjectileEntity(EntityType<? extends Projectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public VanillaProjectileEntity(EntityType<? extends Projectile> entityType, Level level) {
+        super(entityType, level);
         this.life = 0;
         this.baseDamage = 4;
         this.rotateDirection = 1 - random.nextInt(2)*2;
     }
 
-    public VanillaProjectileEntity(EntityType<? extends Projectile> pEntityType, Level pLevel, LivingEntity owner){
-        super(pEntityType, pLevel);
+    public VanillaProjectileEntity(EntityType<? extends Projectile> entityType, Level level, LivingEntity owner){
+        super(entityType, level);
         this.life = 0;
         this.setOwner(owner);
         this.baseDamage = 4;
         this.rotateDirection = 1 - random.nextInt(2)*2;
     }
 
-    public VanillaProjectileEntity(EntityType<? extends Projectile> pEntityType, Level pLevel, Vec3 pos, @Nullable LivingEntity owner){
-        super(pEntityType, pLevel);
+    public VanillaProjectileEntity(EntityType<? extends Projectile> entityType, Level level, Vec3 pos, @Nullable LivingEntity owner){
+        super(entityType, level);
         this.life = 0;
         this.setPos(pos);
         this.setOwner(owner);
@@ -64,9 +63,9 @@ public class VanillaProjectileEntity extends Projectile {
     }
 
     @Override
-    protected void onHitBlock(BlockHitResult pResult) {
-        super.onHitBlock(pResult);
-        Vec3 bounceVector = getReflectionVector(this.getDeltaMovement(), pResult.getDirection());
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        Vec3 bounceVector = getReflectionVector(this.getDeltaMovement(), result.getDirection());
         this.setDeltaMovement(bounceVector);
     }
 
@@ -74,33 +73,27 @@ public class VanillaProjectileEntity extends Projectile {
     public void tick() {
         super.tick();
 
-        ++this.life;
-        if (this.life > 150){
+        Level level = this.level();
 
-            if (!this.level().isClientSide()) this.remove(RemovalReason.DISCARDED);
-
-        }
-        else{
-
+        if (++this.life > 150) {
+            if (!level.isClientSide()) {
+                this.remove(RemovalReason.DISCARDED);
+            }
+        } else {
             // delta movement
             Vec3 vec3 = this.getDeltaMovement();
-            double d5 = vec3.x;
-            double d6 = vec3.y;
-            double d1 = vec3.z;
-            double d7 = this.getX() + d5;
-            double d2 = this.getY() + d6;
-            double d3 = this.getZ() + d1;
-            this.setPos(d7, d2, d3);
+            double x = vec3.x;
+            double y = vec3.y;
+            double z = vec3.z;
+            this.setPos(this.getX() + x, this.getY() + y, this.getZ() + z);
 
             // home into entities
-            Level pLevel = this.level();
-            LivingEntity target = null;
+            LivingEntity target;
             float radius = 30.0f;
             AABB area = this.getBoundingBox().inflate(radius);
-            List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class, area).stream()
+            List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, area, entity -> !entity.getStringUUID().equals(getOwnerUUID())).stream()
                     .filter(entry -> entry.hasLineOfSight(this))
                     .filter(entry -> entry.position().distanceTo(this.position()) <= radius)
-                    .filter(entity -> !entity.getStringUUID().equals(getOwnerUUID()))
                     .filter(entity -> !((entity instanceof Player player) && player.isCreative()) )
                     .sorted(Comparator.comparing(entry -> entry.position().distanceTo(this.position())))
                     .toList();
@@ -114,14 +107,12 @@ public class VanillaProjectileEntity extends Projectile {
                 Vec3 targetVec = target.getPosition(1.0f).add(0.0f, 0.0f + target.getBoundingBox().getYsize()/2, 0.0f).subtract(this.position()).normalize();
 
                 Vec3 a = this.getDeltaMovement().normalize();
-                Vec3 b = targetVec;
                 float lerpAmount = Mth.lerp(Math.max(this.distanceTo(target), radius)/radius,  0.05f, 0.001f);
                 float maxSpeed = 1.25f;
                 float savedSpeed = (float)this.getDeltaMovement().length();
 
-                this.setDeltaMovement(a.add(b.subtract(a.scale(lerpAmount))));
+                this.setDeltaMovement(a.add(targetVec.subtract(a.scale(lerpAmount))));
                 this.setDeltaMovement(this.getDeltaMovement().normalize().scale(Math.max(savedSpeed, maxSpeed)));
-
             }
 
             // rotation
@@ -138,23 +129,23 @@ public class VanillaProjectileEntity extends Projectile {
             }
 
             // basic checks
-
             this.checkInsideBlocks();
-            if (this.level().getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)){
-                if (!this.level().isClientSide()) this.remove(RemovalReason.DISCARDED);
+            if (level.getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)){
+                if (!level.isClientSide()) this.remove(RemovalReason.DISCARDED);
             }
 
         }
     }
 
-    @Override
+    // Why was it here in the first place? lmao
+    /*@Override
     protected void onHit(HitResult pResult) {
         super.onHit(pResult);
 
         if(this.level().isClientSide()) {
             return;
         }
-    }
+    }*/
 
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
@@ -173,13 +164,13 @@ public class VanillaProjectileEntity extends Projectile {
 
     }
 
-    @Nullable
+    /*@Nullable
     protected EntityHitResult findHitEntity(Vec3 pStartVec, Vec3 pEndVec) {
         return ProjectileUtil.getEntityHitResult(this.level(), this, pStartVec, pEndVec, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D), this::canHitEntity);
-    }
+    }*/
 
-    protected boolean canHitEntity(Entity p_36743_) {
-        return super.canHitEntity(p_36743_) && !this.noPhysics;
+    protected boolean canHitEntity(Entity entity) {
+        return super.canHitEntity(entity) && !this.noPhysics;
     }
 
     // thx SSKirilSS

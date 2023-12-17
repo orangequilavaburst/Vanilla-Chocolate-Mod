@@ -32,17 +32,6 @@ public class ChocolateArrowRenderer<T extends ChocolateArrowEntity> extends Enti
         pMatrixStack.pushPose();
         pMatrixStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(pPartialTicks, pEntity.yRotO, pEntity.getYRot()) - 90.0F));
         pMatrixStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(pPartialTicks, pEntity.xRotO, pEntity.getXRot())));
-        int i = 0;
-        float f = 0.0F;
-        float f1 = 0.5F;
-        float f2 = 0.0F;
-        float f3 = 0.15625F;
-        float f4 = 0.0F;
-        float f5 = 0.15625F;
-        float f6 = 0.15625F;
-        float f7 = 0.3125F;
-        float f8 = 0.05625F;
-        float f9 = pPartialTicks;
 
         pMatrixStack.mulPose(Axis.XP.rotationDegrees(45.0F));
         pMatrixStack.scale(0.05625F, 0.05625F, 0.05625F);

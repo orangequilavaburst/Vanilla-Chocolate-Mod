@@ -52,7 +52,7 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
     @Override
     public UseAnim getUseAnimation(ItemStack pStack) {
-        return UseAnim.BOW;
+        return UseAnim. BOW;
     }
 
     @Override
@@ -74,37 +74,29 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
     @Override
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         if (pLivingEntity instanceof Player player) {
-
             int useTime = this.getUseDuration(pStack) - pRemainingUseDuration;
-            Vec3 view = player.getViewVector(1);
-            Vec3 eyeVec = player.getEyePosition(1);
-            HitResult ray = ProjectileUtil.getHitResultOnViewVector(player, (entity -> {
-                return !entity.isSpectator() && entity.isPickable() && entity instanceof LivingEntity;
-            }), 20.0D);
+            HitResult ray = ProjectileUtil.getHitResultOnViewVector(player, (entity -> !entity.isSpectator() && entity.isPickable() && entity instanceof LivingEntity), 20.0D);
             Vec3 hit = ray.getLocation();
 
-            if (ray != null && ray.distanceTo(player) <= distance && ray.getType() != HitResult.Type.MISS){
-
-                Direction dir = Direction.UP;
-                if (ray.getType() == HitResult.Type.BLOCK){
-                    dir = ((BlockHitResult) ray).getDirection();
-                }
-                if (ray.getType() == HitResult.Type.ENTITY){
-                    dir = Direction.UP;
-                }
+            if (ray.distanceTo(player) <= distance && ray.getType() != HitResult.Type.MISS){
+                Direction dir = ray.getType() == HitResult.Type.BLOCK ? ((BlockHitResult) ray).getDirection() : Direction.UP;
 
                 Vec3 normal = new Vec3(dir.getNormal().getX(), dir.getNormal().getY(), dir.getNormal().getZ());
                 if (pLevel.isClientSide()) {
-                    int num = 2;
+                    double num = 2;
                     for (int i = 0; i < num; i++) {
                         double pX = hit.x;
                         double pY = hit.y;
                         double pZ = hit.z;
-                        double radius = Mth.lerp(Math.min(0.1f, getPowerForTime(useTime))*10.0f, 0.0d, 0.5d);
-                        if (ray.getType() == HitResult.Type.ENTITY){
+                        double radius;
+
+                        if (ray.getType() == HitResult.Type.ENTITY) {
                             radius = Mth.lerp(Math.min(0.1f, getPowerForTime(useTime))*10.0f, 0.0d, ((EntityHitResult)ray).getEntity().getBbWidth() / 1.5f);
+                        } else {
+                            radius = Mth.lerp(Math.min(0.1f, getPowerForTime(useTime))*10.0f, 0.0d, 0.5d);
                         }
-                        double t = pRemainingUseDuration / 5.0D + i * Mth.TWO_PI/((double)num);
+
+                        double t = pRemainingUseDuration / 5.0D + i * Mth.TWO_PI/ num;
                         if (normal.x() != 0) {
                             pX += normal.x()*0.05;
                             pY -= Math.sin(t) * radius;
@@ -153,13 +145,7 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
                         ArrowItem arrowitem = (ArrowItem)(itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
 
                         // arrow stuff
-
-                        Vec3 view = player.getViewVector(1);
-                        Vec3 eyeVec = player.getEyePosition(1);
-
-                        HitResult ray = ProjectileUtil.getHitResultOnViewVector(player, (entity -> {
-                            return !entity.isSpectator() && entity.isPickable() && entity instanceof LivingEntity;
-                        }), 20.0D);
+                        HitResult ray = ProjectileUtil.getHitResultOnViewVector(player, (entity -> !entity.isSpectator() && entity.isPickable() && entity instanceof LivingEntity), 20.0D);
                         Vec3 hit = ray.getLocation();
                         Random random = new Random();
 
@@ -185,8 +171,9 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
                                 AbstractArrow abstractarrow = arrowitem.createArrow(pLevel, itemstack, player);
                                 abstractarrow = customArrow(abstractarrow);
                                 abstractarrow.setOwner(player);
-                                abstractarrow.setPos(hit.add(0.0d, height - 1.0d, 0.0d));
-                                abstractarrow.setPos(abstractarrow.position().add(random.nextFloat(-0.5f, 0.5f), random.nextFloat(-2.0f, 2.0f), random.nextFloat(-0.5f, 0.5f)));
+                                abstractarrow.setPos(hit
+                                        .add(0.0d, height - 1.0d, 0.0d)
+                                        .add(random.nextFloat(-0.5f, 0.5f), random.nextFloat(-2.0f, 2.0f), random.nextFloat(-0.5f, 0.5f)));
                                 abstractarrow.setPos(abstractarrow.position().x(), Mth.clamp(abstractarrow.position().y(), ray.getLocation().y() + 0.5f, ray.getLocation().y() + height - 0.5f), abstractarrow.position().z());
                                 abstractarrow.shoot(0.0f, -1.0f, 0.0f, 2.0f, 2.0f);
 
@@ -194,15 +181,14 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
                                     abstractarrow.setCritArrow(true);
                                 }
 
-                                int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, pStack);
-                                if (j > 0) {
-                                    abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j * 0.5D + 0.5D);
+
+                                int powerLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, pStack);
+                                if (powerLevel > 0) {
+                                    abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)powerLevel * 0.5D + 0.5D);
                                 }
 
-                                int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, pStack);
-                                if (k > 0) {
-                                    abstractarrow.setKnockback(k);
-                                }
+                                // Punch
+                                abstractarrow.setKnockback(EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, pStack));
 
                                 if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, pStack) > 0) {
                                     abstractarrow.setSecondsOnFire(100);
@@ -217,9 +203,7 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
                                 Vec3 arrowPos = abstractarrow.getPosition(1.0f);
 
                                 if (pLevel.isClientSide()){
-
                                     pLevel.addParticle(ParticleTypes.CLOUD, arrowPos.x(), arrowPos.y(), arrowPos.z(), 0.0f, 0.0f, 0.0f);
-
                                 }
 
                                 if (!flag1 && !player.getAbilities().instabuild) {
@@ -231,16 +215,12 @@ public class ChocolateRainBowItem extends ProjectileWeaponItem {
 
                             }
 
-                            pStack.hurtAndBreak(1, player, (p_289501_) -> {
-                                p_289501_.broadcastBreakEvent(player.getUsedItemHand());
-                            });
+                            pStack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(player.getUsedItemHand()));
 
-                            pLevel.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                            pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
                             player.awardStat(Stats.ITEM_USED.get(this));
-
                         }
-
                     }
                 }
             }

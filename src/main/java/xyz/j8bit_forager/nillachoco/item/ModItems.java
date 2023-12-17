@@ -1,6 +1,5 @@
 package xyz.j8bit_forager.nillachoco.item;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -8,7 +7,10 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BannerPatternItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -143,6 +145,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> PLAIN_DONUT_FLOATIE = ITEMS.register("plain_donut_floatie",
             () -> new DyeableDonutFloatieItem(new Item.Properties()));
+
     public static final RegistryObject<Item> GLAZED_DONUT_FLOATIE = ITEMS.register("glazed_donut_floatie",
             () -> new DonutFloatieItem(new Item.Properties()));
 
@@ -168,19 +171,14 @@ public class ModItems {
             () -> new BannerPatternItem(ModBannerPatterns.PATTERN_ITEM_STAR, new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eb){
-
         ITEMS.register(eb);
-
     }
 
     public static class Tags{
-
         public static final TagKey<Item> DONUTS = create("donuts");
 
         private static TagKey<Item> create(String location){
-
             return ItemTags.create(new ResourceLocation(NillaChocoMod.MOD_ID, location));
-
         }
 
     }

@@ -5,7 +5,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Skeleton;
@@ -31,12 +30,9 @@ public class ChillingEffect extends MobEffect {
             skeleton.convertTo(EntityType.STRAY, true);
         }
 
-        if (pLivingEntity.getActiveEffects().stream().anyMatch((mobEffectInstance -> mobEffectInstance.getEffect() == ModEffects.WARMTH_EFFECT.get()))){
-            for (MobEffectInstance me : pLivingEntity.getActiveEffects().stream().toList()){
-                if (me.getEffect() == ModEffects.WARMTH_EFFECT.get() || me.getEffect() == ModEffects.CHILLING_EFFECT.get()){
-                    pLivingEntity.getActiveEffects().remove(me);
-                }
-            }
+        if (pLivingEntity.hasEffect(ModEffects.WARMTH_EFFECT.get())){
+            pLivingEntity.removeEffect(this);
+            pLivingEntity.removeEffect(ModEffects.WARMTH_EFFECT.get());
         } else {
             List<BlockPos> blocks = BlockPos.betweenClosedStream(
                             pLivingEntity.getBoundingBox().inflate(2.0 + pAmplifier))

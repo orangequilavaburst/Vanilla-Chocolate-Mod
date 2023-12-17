@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Zombie;
@@ -30,15 +29,10 @@ public class WarmthEffect extends MobEffect {
             zombie.convertTo(EntityType.HUSK, true);
         }
 
-        if (pLivingEntity.getActiveEffects().stream().anyMatch((mobEffectInstance -> mobEffectInstance.getEffect() == ModEffects.CHILLING_EFFECT.get()))){
-            for (MobEffectInstance me : pLivingEntity.getActiveEffects().stream().toList()){
-                if (me.getEffect() == ModEffects.WARMTH_EFFECT.get() || me.getEffect() == ModEffects.CHILLING_EFFECT.get()){
-                    pLivingEntity.getActiveEffects().remove(me);
-                }
-            }
-        }
-        else {
-
+        if (pLivingEntity.hasEffect(ModEffects.CHILLING_EFFECT.get())){
+            pLivingEntity.removeEffect(this);
+            pLivingEntity.removeEffect(ModEffects.CHILLING_EFFECT.get());
+        } else {
             pLivingEntity.setTicksFrozen(0);
 
             List<BlockPos> blocks = BlockPos.betweenClosedStream(

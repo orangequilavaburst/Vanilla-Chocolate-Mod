@@ -15,7 +15,6 @@ public class ChocolateArrowItem extends ArrowItem {
 
     @Override
     public AbstractArrow createArrow(Level pLevel, ItemStack pStack, LivingEntity pShooter) {
-        ChocolateArrowEntity d = new ChocolateArrowEntity(ModEntityTypes.CHOCOLATE_ARROW_ENTITY.get(), pShooter, pLevel);
-        return d;
+        return new ChocolateArrowEntity(ModEntityTypes.CHOCOLATE_ARROW_ENTITY.get(), pShooter, pLevel);
     }
 }

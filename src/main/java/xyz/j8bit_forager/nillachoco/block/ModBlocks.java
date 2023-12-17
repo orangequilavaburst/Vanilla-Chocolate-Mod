@@ -18,7 +18,6 @@ import xyz.j8bit_forager.nillachoco.item.ModItems;
 import java.util.function.Supplier;
 
 public class ModBlocks {
-
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, NillaChocoMod.MOD_ID);
 
     public static final RegistryObject<Block> VANILLA_PLANT = BLOCKS.register("vanilla_plant",
@@ -68,24 +67,19 @@ public class ModBlocks {
     public static final RegistryObject<Block> VANILLA_SCENTED_CANDLE = registerBlock("vanilla_scented_candle",
             () -> new VanillaScentCandleBlock(BlockBehaviour.Properties.copy(Blocks.CANDLE)));
 
+
     private static <T extends Block>RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block){
-
         return ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
-
     }
 
     private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block){
-
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn);
         return toReturn;
-
     }
 
     public static void register(IEventBus eb){
-
         BLOCKS.register(eb);
-
     }
 
     public static class Tags{
@@ -94,9 +88,7 @@ public class ModBlocks {
         public static final TagKey<Block> DESTROYED_BY_CHILLING = create("destroyed_by_chilling");
 
         private static TagKey<Block> create(String location){
-
             return BlockTags.create(new ResourceLocation(NillaChocoMod.MOD_ID, location));
-
         }
 
     }

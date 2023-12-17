@@ -39,7 +39,6 @@ public class ChocolateEggEntity extends ThrowableItemProjectile {
     protected void onHit(HitResult pResult) {
         super.onHit(pResult);
         if (!this.level().isClientSide) {
-
             this.level().broadcastEntityEvent(this, (byte)3);
             this.discard();
         }
@@ -48,8 +47,6 @@ public class ChocolateEggEntity extends ThrowableItemProjectile {
 
     public void handleEntityEvent(byte pId) {
         if (pId == 3) {
-            double d0 = 0.08D;
-
             for(int i = 0; i < 8; ++i) {
                 this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY() + this.getBbHeight()/2.0f, this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
             }

@@ -9,7 +9,10 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.DyeableArmorItem;
+import net.minecraft.world.item.DyeableLeatherItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +25,6 @@ import java.util.function.Consumer;
 public class ApronItem extends DyeableArmorItem implements DyeableLeatherItem {
 
     public static ArmorMaterial APRON = new ArmorMaterial() {
-
         @Override
         public int getDurabilityForType(Type ArmorType) {
             return 100;
