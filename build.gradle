@@ -53,9 +53,6 @@ minecraft {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', 'nillachoco'
 
-            args '--uuid', 'f6065061-7e65-413e-bc75-accf6c09ce0a'
-            args '--username', 'J8-Bit'
-
             mods {
                 nillachoco {
                     source sourceSets.main
