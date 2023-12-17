@@ -42,9 +42,12 @@ authors="J8-Bit, QinomeD" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-This is a long form description of the mod. You can write whatever you want here
+This mods adds vanilla and chocolate items to Minecraft!
 
-Add description later
+If you're interested in seeing more from the developer, check out these sites!
+https://twitter.com/AForager
+https://aforager.tumblr.com/
+https://www.curseforge.com/members/j8bit_forager/projects
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.nillachoco]] #optional
