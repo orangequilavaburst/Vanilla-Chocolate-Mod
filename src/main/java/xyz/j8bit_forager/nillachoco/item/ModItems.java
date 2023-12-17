@@ -1,5 +1,6 @@
 package xyz.j8bit_forager.nillachoco.item;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -7,15 +8,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemNameBlockItem;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.j8bit_forager.nillachoco.NillaChocoMod;
+import xyz.j8bit_forager.nillachoco.block.ModBannerPatterns;
 import xyz.j8bit_forager.nillachoco.block.ModBlocks;
 
 public class ModItems {
@@ -164,6 +163,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> SPIDER_DONUT_FLOATIE = ITEMS.register("spider_donut_floatie",
             () -> new DonutFloatieItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> BANNER_PATTERN_STAR = ITEMS.register("star_banner_pattern",
+            () -> new BannerPatternItem(ModBannerPatterns.PATTERN_ITEM_STAR, new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eb){
 

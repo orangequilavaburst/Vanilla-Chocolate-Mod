@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "nillachoco:vanilla_orchid"
+    }
+  ],
+  "result": {
+    "item": "nillachoco:star_banner_pattern"
+  }
+}

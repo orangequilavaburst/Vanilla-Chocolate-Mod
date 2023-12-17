@@ -65,7 +65,7 @@ public class DonutFloatieItem extends ArmorItem {
 
         @Override
         public float getKnockbackResistance() {
-            return 1;
+            return 0.1f;
         }
     };
 

@@ -2,16 +2,19 @@ package xyz.j8bit_forager.nillachoco;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.LoomScreen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.tags.BannerPatternTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.LoomMenu;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +23,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.LoomBlock;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -40,6 +44,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import xyz.j8bit_forager.nillachoco.block.ModBannerPatterns;
 import xyz.j8bit_forager.nillachoco.block.ModBlocks;
 import xyz.j8bit_forager.nillachoco.block.entity.ModBlockEntities;
 import xyz.j8bit_forager.nillachoco.client.renderer.entity.ChocolateArrowRenderer;
@@ -83,6 +88,7 @@ public class NillaChocoMod
         ModPotions.register(modEventBus);
         ModSounds.register(modEventBus);
         ModLootModifiers.register(modEventBus);
+        ModBannerPatterns.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -97,30 +103,34 @@ public class NillaChocoMod
     private void commonSetup(final FMLCommonSetupEvent event)
     {
 
-        ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.VANILLA_ORCHID.getId(), ModBlocks.POTTED_VANILLA_ORCHID);
-        ComposterBlock.COMPOSTABLES.put(ModItems.VANILLA_BEAN.get(), 0.3f);
-        ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.VANILLA_ORCHID.get()), 0.65f);
-        ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.COCOA_BEAN_BLOCK.get()), 1.0f);
-        ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.COCOA_HUSK_BLOCK.get()), 1.0f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.CHOCOLATE_BAR.get(), 0.75f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.CHOCOLATE_EGG.get(), 0.8f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.SUGAR_COOKIE.get(), 0.85f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.YOSHI_COOKIE.get(), 1.0f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.RAW_DONUT_RING.get(), 0.85f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.PLAIN_DONUT.get(), 0.85f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.GLAZED_DONUT.get(), 0.9f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.VANILLA_FROSTED_DONUT.get(), 0.95f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.CHOCOLATE_FROSTED_DONUT.get(), 0.95f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.SLIME_DONUT.get(), 0.95f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.SPIDER_DONUT.get(), 0.95f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.APPLE_FRITTER.get(), 0.95f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.SPRINKLE_DONUT.get(), 0.95f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.HONEY_DONUT.get(), 0.95f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.FUDGE_BROWNIE.get(), 1.0f);
-        ComposterBlock.COMPOSTABLES.put(ModItems.VANILLA_CREAM_PIE.get(), 1.0f);
-        ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.VANILLA_CAKE.get()), 1.0f);
-        ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.CHOCOLATE_CAKE.get()), 1.0f);
+        // apparently this does something
+        event.enqueueWork(() -> {
+                    ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.VANILLA_ORCHID.getId(), ModBlocks.POTTED_VANILLA_ORCHID);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.VANILLA_BEAN.get(), 0.3f);
+                    ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.VANILLA_ORCHID.get()), 0.65f);
+                    ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.COCOA_BEAN_BLOCK.get()), 1.0f);
+                    ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.COCOA_HUSK_BLOCK.get()), 1.0f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.CHOCOLATE_BAR.get(), 0.75f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.CHOCOLATE_EGG.get(), 0.8f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.SUGAR_COOKIE.get(), 0.85f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.YOSHI_COOKIE.get(), 1.0f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.RAW_DONUT_RING.get(), 0.85f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.PLAIN_DONUT.get(), 0.85f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.GLAZED_DONUT.get(), 0.9f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.VANILLA_FROSTED_DONUT.get(), 0.95f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.CHOCOLATE_FROSTED_DONUT.get(), 0.95f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.SLIME_DONUT.get(), 0.95f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.SPIDER_DONUT.get(), 0.95f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.APPLE_FRITTER.get(), 0.95f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.SPRINKLE_DONUT.get(), 0.95f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.HONEY_DONUT.get(), 0.95f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.FUDGE_BROWNIE.get(), 1.0f);
+                    ComposterBlock.COMPOSTABLES.put(ModItems.VANILLA_CREAM_PIE.get(), 1.0f);
+                    ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.VANILLA_CAKE.get()), 1.0f);
+                    ComposterBlock.COMPOSTABLES.put(Item.byBlock(ModBlocks.CHOCOLATE_CAKE.get()), 1.0f);
 
+                }
+        );
         ItemUtils.makeBow(ModItems.CHOCOLATE_RAIN_BOW.get());
 
     }
@@ -154,6 +164,8 @@ public class NillaChocoMod
             event.accept(ModItems.CHOCOLATE_BAR);
             event.accept(ModItems.RAW_DONUT_RING);
             event.accept(ModItems.PLAIN_DONUT);
+
+            event.accept(ModItems.BANNER_PATTERN_STAR);
 
         }
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS){
@@ -258,6 +270,7 @@ public class NillaChocoMod
 
             // other blocks
             event.accept(ModBlocks.VANILLA_SCENTED_CANDLE);
+            event.accept(ModItems.BANNER_PATTERN_STAR);
 
         }
 
@@ -361,7 +374,7 @@ public class NillaChocoMod
                             LivingEntity target = (LivingEntity) event.getSource().getEntity();
                             Vec3 bounceVec = target.position().subtract(event.getEntity().position());
                             bounceVec = bounceVec.normalize().scale(0.25);
-                            bounceVec = new Vec3(bounceVec.x, Math.max(1, bounceVec.y * 0.5), bounceVec.z);
+                            bounceVec = new Vec3(bounceVec.x, Math.max(0.25, bounceVec.y), bounceVec.z);
                             target.setDeltaMovement(bounceVec);
                         }
                     }

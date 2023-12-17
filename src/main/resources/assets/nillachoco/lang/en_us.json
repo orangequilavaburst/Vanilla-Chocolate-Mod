@@ -95,6 +95,9 @@
   "item.minecraft.lingering_potion.effect.long_calming_potion": "Lingering Potion of Calming",
   "item.minecraft.tipped_arrow.effect.long_calming_potion": "Arrow of Calming",
 
+  "item.nillachoco.star_banner_pattern": "Banner Pattern",
+  "item.nillachoco.star_banner_pattern.desc": "Star",
+
   "effect.nillachoco.warmth": "Warmth",
   "effect.nillachoco.warmth.warning_text": "It's too hot!",
   "effect.nillachoco.chilling": "Chilling",
